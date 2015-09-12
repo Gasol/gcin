@@ -3,7 +3,7 @@ Section: utils
 Priority: optional
 Maintainer: IME Packaging Team <pkg-ime-devel@lists.alioth.debian.org>
 Uploaders: Yao Wei (魏銘廷) <mwei@lxde.org>,
-           ChangZhuo Chen (陳昌倬) <czchen@gmail.com>,
+           ChangZhuo Chen (陳昌倬) <czchen@debian.org>,
 Homepage: http://hyperrate.com/dir.php?eid=67
 Build-Depends: debhelper (>= 9),
                autotools-dev,
