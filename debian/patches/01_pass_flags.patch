@@ -124,13 +124,13 @@ Last-Update: 2013-08-02
  LDFLAGS=-L../im-client -lgcin-im-client -Wl,-rpath,$(gcinlibdir) `pkg-config qt-mt --libs`
 --- a/qt5-im/Makefile
 +++ b/qt5-im/Makefile
-@@ -4,13 +4,12 @@
- IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
- 
+@@ -6,13 +6,12 @@
  INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui Qt5PlatformSupport QtDBus --cflags`
--# dirty fix for ubuntu 14.04,  pkg-config Qt5Gui --cflags return -I/usr/include/qt5/QtGui, missing 5.2.1/QtGui
--INCS+=-I /usr/include/qt5/QtGui/5.2.1/QtGui
-+INCS+=-I `pkg-config --variable=includedir Qt5Gui`/QtGui/`pkg-config --modversion Qt5Gui`/QtGui
+ # dirty fix for ubuntu 14.04,  pkg-config Qt5Gui --cflags return -I/usr/include/qt5/QtGui, missing 5.2.1/QtGui
+ MODVERSION=`pkg-config --modversion Qt5Gui`
+-INCS+=-I/usr/include/qt5/QtGui/$(MODVERSION)/QtGui -I/usr/include/i386-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui
+-INCS+=-I/usr/include/x86_64-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui
++INCS+=`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)/QtGui
  
 -CXXFLAGS=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT5 -DQT_SHARED -DQT_IMMODULE -DPIC -DDEBUG="0$(GCIN_DEBUG)"
 +CXXFLAGS+=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT5 -DQT_SHARED -DQT_IMMODULE -DPIC -DDEBUG="0$(GCIN_DEBUG)"
