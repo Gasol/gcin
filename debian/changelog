@@ -1,10 +1,10 @@
-gcin (2.8.4+dfsg1-1) UNRELEASED; urgency=medium
+gcin (2.8.4+dfsg1-1) unstable; urgency=medium
 
   * New upstream release.
   * Remove gcin-dev since libgcin-im-client.so is not designed to be used
     outside gcin.
 
- -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Thu, 15 Oct 2015 14:42:50 +0800
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Thu, 15 Oct 2015 16:02:15 +0800
 
 gcin (2.8.3+dfsg1-6) unstable; urgency=medium
 
