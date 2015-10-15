@@ -4,7 +4,7 @@ Author: Yao Wei (魏銘廷) <mwei@lxde.org>
 Last-Update: 2013-10-01
 --- a/configure
 +++ b/configure
-@@ -184,11 +184,11 @@
+@@ -197,11 +197,11 @@
  
  
  LIB='lib'
