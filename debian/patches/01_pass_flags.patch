@@ -130,7 +130,7 @@ Last-Update: 2013-08-02
  MODVERSION=`pkg-config --modversion Qt5Gui`
 -INCS+=-I/usr/include/qt5/QtGui/$(MODVERSION)/QtGui -I/usr/include/i386-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui
 -INCS+=-I/usr/include/x86_64-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui
-+INCS+=`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)/QtGui
++INCS+=-I`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)/QtGui
  
 -CXXFLAGS=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT5 -DQT_SHARED -DQT_IMMODULE -DPIC -DDEBUG="0$(GCIN_DEBUG)"
 +CXXFLAGS+=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT5 -DQT_SHARED -DQT_IMMODULE -DPIC -DDEBUG="0$(GCIN_DEBUG)"
