@@ -1,7 +1,7 @@
 Description: Use qtchooser to find moc
---- gcin-2.8.3+dfsg1.orig/configure
-+++ gcin-2.8.3+dfsg1/configure
-@@ -314,13 +314,7 @@ if [ $QT4_IM = 'N' ]; then
+--- a/configure
++++ b/configure
+@@ -314,13 +314,7 @@
    mv gcin.spec gcin.spec.tmp
    grep -v qt4/plugins/inputmethods gcin.spec.tmp > gcin.spec
  else
@@ -16,11 +16,11 @@ Description: Use qtchooser to find moc
  fi
  
  
-@@ -328,13 +322,7 @@ if [ $QT5_IM = 'N' ]; then
+@@ -328,13 +322,7 @@
    mv gcin.spec gcin.spec.tmp
    grep -v qt5/plugins/inputmethods gcin.spec.tmp > gcin.spec
  else
--  for i in /usr/share/qt5/bin/moc /usr/lib/qt5/bin/moc /usr/lib/x86_64-linux-gnu/qt5/bin/moc /usr/lib64/qt5/bin/moc /usr/bin/moc
+-  for i in /usr/share/qt5/bin/moc /usr/lib/qt5/bin/moc /usr/lib/x86_64-linux-gnu/qt5/bin/moc /usr/lib/i386-linux-gnu/qt5/bin/moc /usr/lib64/qt5/bin/moc /usr/bin/moc
 -  do
 -    [ ! -x $i ] && continue
 -    QT5_MOC=$i
