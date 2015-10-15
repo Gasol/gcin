@@ -1,7 +1,7 @@
 Description: Fix FTBFS on kfreebsd-*
---- gcin-2.8.2+dfsg.orig/configure
-+++ gcin-2.8.2+dfsg/configure
-@@ -27,7 +27,7 @@ if [ $? = 0 ]; then
+--- a/configure
++++ b/configure
+@@ -28,7 +28,7 @@
  fi
  
  FREEBSD=0
