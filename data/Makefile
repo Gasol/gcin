@@ -1,7 +1,7 @@
 include ../config.mak
 
 .SUFFIXES:	.kbmsrc .kbm .cin .gtab
-CFLAGS= -DUNIX=1 $(WALL) $(OPTFLAGS) $(GTKINC) -I.. -DDEBUG="0$(GCIN_DEBUG)"
+CFLAGS += -DUNIX=1 $(WALL) $(OPTFLAGS) $(GTKINC) -I.. -DDEBUG="0$(GCIN_DEBUG)"
 export NO_GTK_INIT=
 export GCIN_NO_RELOAD=
 

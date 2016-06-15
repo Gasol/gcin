@@ -5,7 +5,7 @@ SOFILEVER=libgcin-im-client.so.1.2.5
 
 .SUFFIXES:      .c .o .E .cpp
 WALL=-Wall
-CFLAGS= -DUNIX=1 $(WALL) $(OPTFLAGS) -I. -I.. -I../IMdkit/include $(GTKINC) \
+CFLAGS += -DUNIX=1 $(WALL) $(OPTFLAGS) -I. -I.. -I../IMdkit/include $(GTKINC) \
         -DCLIENT_LIB=1 -DGCIN_BIN_DIR=\"$(GCIN_BIN_DIR)\" -DUNIX=1 \
         -DDEBUG="0$(GCIN_DEBUG)" -DGCIN_TABLE_DIR=\"$(GCIN_TABLE_DIR)\" \
         -DFREEBSD=$(FREEBSD) -fPIC
