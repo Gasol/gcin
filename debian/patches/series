@@ -7,3 +7,4 @@
 0007-Remove-dayi3-to-compliant-with-DFSG.patch
 0008-Use-qtchooser-to-find-moc.patch
 0009-Remove-__DATE__-for-reproducible-build.patch
+0010-Remove-Qt5PlatformSupport.patch

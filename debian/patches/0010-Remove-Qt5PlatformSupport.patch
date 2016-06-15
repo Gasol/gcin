@@ -1,0 +1,32 @@
+From d3ed1359ad5891517aa3ea400b9c31fbbd0ef365 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?ChangZhuo=20Chen=20=28=E9=99=B3=E6=98=8C=E5=80=AC=29?=
+ <czchen@debian.org>
+Date: Wed, 15 Jun 2016 19:15:39 +0800
+Subject: Remove Qt5PlatformSupport
+
+---
+ qt5-im/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/qt5-im/Makefile b/qt5-im/Makefile
+index aa6ff9f..1fa4fca 100644
+--- a/qt5-im/Makefile
++++ b/qt5-im/Makefile
+@@ -3,7 +3,7 @@ QT=qt5
+ QTIM=$(QT)/plugins/platforminputcontexts
+ IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
+ 
+-INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui Qt5PlatformSupport QtDBus --cflags`
++INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui QtDBus --cflags`
+ # dirty fix for ubuntu 14.04,  pkg-config Qt5Gui --cflags return -I/usr/include/qt5/QtGui, missing 5.2.1/QtGui
+ MODVERSION=`pkg-config --modversion Qt5Gui`
+ INCS+=-I`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)/QtGui
+@@ -11,7 +11,7 @@ INCS+=-I`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)/QtGui
+ CXXFLAGS+=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT5 -DQT_SHARED -DQT_IMMODULE -DPIC -DDEBUG="0$(GCIN_DEBUG)"
+ OBJS= moc_gcin-qt5.o gcin-qt5.o gcin-imcontext-qt5.o moc_qgcinplatforminputcontext.o
+ .SUFFIXES:	.c .cpp .a .so .E .h
+-LDFLAGS+=-L../im-client -lgcin-im-client `pkg-config Qt5Core Qt5Gui Qt5PlatformSupport --libs`
++LDFLAGS+=-L../im-client -lgcin-im-client `pkg-config Qt5Core Qt5Gui --libs`
+ 
+ GCIN_QT5 = libgcinplatforminputcontextplugin.so
+ 
