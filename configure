@@ -205,11 +205,6 @@ fi
 
 
 LIB='lib'
-if [ -d /usr/lib64 -a -d /lib64 -a ! -d /lib/x86_64-linux-gnu ]; then
-LIB='lib64'
-# for fedora 64bit
-GTK_QUERY_IM_64='-64'
-fi
 
 QT_IM='N'
 QT_IM_DIR=/usr/$LIB/qt3/plugins/inputmethods
