@@ -1,4 +1,3 @@
 usr/bin
 usr/share/applications
 debian/gcin.xpm usr/share/pixmaps
-debian-pkg/im-switch/gcin etc/X11/xinit/xinput.d
