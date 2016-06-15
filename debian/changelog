@@ -1,3 +1,10 @@
+gcin (2.8.4+dfsg1-4) unstable; urgency=medium
+
+  * Remove Debian specific menu.
+  * Remove alternatives for xinput-*.
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Thu, 16 Jun 2016 00:07:10 +0800
+
 gcin (2.8.4+dfsg1-3) unstable; urgency=medium
 
   * Fix FTBFS on Qt 5.6.1. (Closes: #827262)
