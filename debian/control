@@ -16,7 +16,7 @@ Build-Depends: debhelper (>= 9.20151219),
                libxtst-dev,
                qtbase5-private-dev,
                qtchooser,
-Standards-Version: 3.9.6
+Standards-Version: 3.9.8
 Vcs-Git: https://anonscm.debian.org/git/pkg-ime/gcin.git
 Vcs-Browser: https://anonscm.debian.org/git/pkg-ime/gcin.git
 
