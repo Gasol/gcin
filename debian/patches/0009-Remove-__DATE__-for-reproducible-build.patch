@@ -1,0 +1,23 @@
+From 107f97b52a1699334b49ffed7a70b8769b961665 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?ChangZhuo=20Chen=20=28=E9=99=B3=E6=98=8C=E5=80=AC=29?=
+ <czchen@debian.org>
+Date: Wed, 15 Jun 2016 19:06:33 +0800
+Subject: Remove __DATE__ for reproducible build
+
+---
+ about.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/about.cpp b/about.cpp
+index 9dd4587..7454bb3 100644
+--- a/about.cpp
++++ b/about.cpp
+@@ -143,7 +143,7 @@ static struct {
+     image = gtk_image_new_from_file (gcin_png);
+ #endif
+ 
+-    label_version = gtk_label_new ("version " GCIN_VERSION "  " __DATE__);
++    label_version = gtk_label_new ("version " GCIN_VERSION);
+ 
+     gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 3);
+     gtk_box_pack_start (GTK_BOX (hbox), label_version, FALSE, FALSE, 3);

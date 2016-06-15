@@ -1,14 +1,46 @@
-Description: Pass CFLAGS and LDFLAGS to compiler and linker
+From d3101f41d69cac664fe9592834535657348855a8 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Yao=20Wei=20=28=E9=AD=8F=E9=8A=98=E5=BB=B7=29?=
+ <mwei@lxde.org>
+Date: Wed, 15 Jun 2016 19:06:24 +0800
+Subject: Pass CFLAGS and LDFLAGS to compiler and linker
+
  For Debian hardening flags.
  .
  Mentioned, but not yet push to upstream.
  Some hardening lintian warning still appears.
-Author: Yao Wei (魏銘廷) <mwei@lxde.org>
 Forwarded: http://hyperrate.com/thread.php?tid=27601
 Last-Update: 2013-08-02
+---
+ IMdkit/lib/Makefile | 2 +-
+ configure           | 6 ++++--
+ data/Makefile       | 2 +-
+ gtk-im/Makefile     | 2 +-
+ gtk3-im/Makefile    | 2 +-
+ im-client/Makefile  | 2 +-
+ qt-im/Makefile      | 2 +-
+ qt4-im/Makefile     | 4 ++--
+ qt5-im/Makefile     | 7 +++----
+ suffixes-rule       | 3 ++-
+ 10 files changed, 17 insertions(+), 15 deletions(-)
+
+diff --git a/IMdkit/lib/Makefile b/IMdkit/lib/Makefile
+index f663b6b..7bcfcda 100644
+--- a/IMdkit/lib/Makefile
++++ b/IMdkit/lib/Makefile
+@@ -1,7 +1,7 @@
+ include ../../config.mak
+ 
+ #CFLAGS =  -c -O2 -fno-strength-reduce -Dlinux -D__i386__ -D_POSIX_C_SOURCE=199309L -D_POSIX_SOURCE -D_XOPEN_SOURCE=500L -D_BSD_SOURCE -D_SVID_SOURCE   -DFUNCPROTO=15 -DNARROWPROTO   -DUNIXCONN -DTCPCONN -DXIM_t -DTRANS_SERVER
+-CFLAGS =  -c $(OPTFLAGS) -fno-strength-reduce -DXIM_t -DTRANS_SERVER
++CFLAGS +=  -c $(OPTFLAGS) -fno-strength-reduce -DXIM_t -DTRANS_SERVER
+ INC = -I../include -I/usr/X11R6/include
+ 
+ 
+diff --git a/configure b/configure
+index ebb710f..8ed1cbb 100755
 --- a/configure
 +++ b/configure
-@@ -38,7 +38,7 @@
+@@ -38,7 +38,7 @@ if [ $? = 0 ]; then
    FREEBSD=1
  fi
  
@@ -17,7 +49,7 @@ Last-Update: 2013-08-02
  MAC_OS=0
  uname | grep Darwin > /dev/null 2> /dev/null
  if [ $? = 0 ]; then
-@@ -365,7 +365,9 @@
+@@ -365,7 +365,9 @@ echo "datadir_r=$datadir" >> config.mak
  echo "libdir=\$(DESTDIR)$libdir" >> config.mak
  echo "gcinlibdir=\$(DESTDIR)$gcinlibdir" >> config.mak
  echo "includedir=\$(DESTDIR)$includedir" >> config.mak
@@ -28,9 +60,76 @@ Last-Update: 2013-08-02
  echo "GCIN_VERSION=$GCIN_VERSION" >> config.mak
  echo "GCIN_TABLE_DIR=\$(datadir_r)/gcin/table" >> config.mak
  echo "GCIN_OGG_DIR=\$(datadir_r)/gcin/ogg" >> config.mak
+diff --git a/data/Makefile b/data/Makefile
+index a7c596a..cb7a5b9 100644
+--- a/data/Makefile
++++ b/data/Makefile
+@@ -1,7 +1,7 @@
+ include ../config.mak
+ 
+ .SUFFIXES:	.kbmsrc .kbm .cin .gtab
+-CFLAGS= -DUNIX=1 $(WALL) $(OPTFLAGS) $(GTKINC) -I.. -DDEBUG="0$(GCIN_DEBUG)"
++CFLAGS += -DUNIX=1 $(WALL) $(OPTFLAGS) $(GTKINC) -I.. -DDEBUG="0$(GCIN_DEBUG)"
+ export NO_GTK_INIT=
+ export GCIN_NO_RELOAD=
+ 
+diff --git a/gtk-im/Makefile b/gtk-im/Makefile
+index 51122bf..6f2b958 100644
+--- a/gtk-im/Makefile
++++ b/gtk-im/Makefile
+@@ -13,7 +13,7 @@ EXTRA_INC=-I/sw/include
+ endif
+ 
+ .SUFFIXES:	.c .o .E
+-CFLAGS = $(OPTFLAGS) $(EXTRA_INC) $(GTKINC) -I../im-client -I.. -DUNIX=1 \
++CFLAGS += $(OPTFLAGS) $(EXTRA_INC) $(GTKINC) -I../im-client -I.. -DUNIX=1 \
+ -I../IMdkit/include -DCLIENT_LIB=1 -DMAC_OS=$(MAC_OS) -DFREEBSD=$(FREEBSD)
+ 
+ .c.o:
+diff --git a/gtk3-im/Makefile b/gtk3-im/Makefile
+index 01d7b1c..86a4289 100644
+--- a/gtk3-im/Makefile
++++ b/gtk3-im/Makefile
+@@ -14,7 +14,7 @@ EXTRA_INC=-I/sw/include
+ endif
+ 
+ .SUFFIXES:	.c .o .E
+-CFLAGS = $(OPTFLAGS) $(EXTRA_INC) $(GTKINC) -I../im-client -I.. -DUNIX=1 \
++CFLAGS += $(OPTFLAGS) $(EXTRA_INC) $(GTKINC) -I../im-client -I.. -DUNIX=1 \
+ -I../IMdkit/include -DCLIENT_LIB=1 -DMAC_OS=$(MAC_OS) -DFREEBSD=$(FREEBSD)
+ 
+ .c.o:
+diff --git a/im-client/Makefile b/im-client/Makefile
+index 363fa8e..61eb0ec 100644
+--- a/im-client/Makefile
++++ b/im-client/Makefile
+@@ -5,7 +5,7 @@ SOFILEVER=libgcin-im-client.so.1.2.5
+ 
+ .SUFFIXES:      .c .o .E .cpp
+ WALL=-Wall
+-CFLAGS= -DUNIX=1 $(WALL) $(OPTFLAGS) -I. -I.. -I../IMdkit/include $(GTKINC) \
++CFLAGS += -DUNIX=1 $(WALL) $(OPTFLAGS) -I. -I.. -I../IMdkit/include $(GTKINC) \
+         -DCLIENT_LIB=1 -DGCIN_BIN_DIR=\"$(GCIN_BIN_DIR)\" -DUNIX=1 \
+         -DDEBUG="0$(GCIN_DEBUG)" -DGCIN_TABLE_DIR=\"$(GCIN_TABLE_DIR)\" \
+         -DFREEBSD=$(FREEBSD) -fPIC
+diff --git a/qt-im/Makefile b/qt-im/Makefile
+index a956307..9b8e4f9 100644
+--- a/qt-im/Makefile
++++ b/qt-im/Makefile
+@@ -3,7 +3,7 @@ QT=qt3
+ QTIM=$(QT)/plugins/inputmethods
+ IMMODULES=$(libdir)/$(QTIM)
+ INCS=-I../im-client -I/usr/include `pkg-config --cflags qt-mt` -I/usr/include/Xft2/X11/Xft  -I/usr/include/fontconfig -I/usr/include/freetype2
+-CXXFLAGS=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT_THREAD_SUPPORT -DQT_PLUGIN -DQT_SHARED -DQT_NO_DEBUG
++CXXFLAGS+=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT_THREAD_SUPPORT -DQT_PLUGIN -DQT_SHARED -DQT_NO_DEBUG
+ OBJS=qgcininputcontextplugin.o qgcininputcontextplugin_my.o qgcininputcontext.o qgcininputcontext_x11.o
+ .SUFFIXES:	.c .cpp .a .so .E .h
+ LDFLAGS=-L../im-client -lgcin-im-client -Wl,-rpath,$(gcinlibdir) `pkg-config qt-mt --libs`
+diff --git a/qt4-im/Makefile b/qt4-im/Makefile
+index 742407b..c4c7f92 100644
 --- a/qt4-im/Makefile
 +++ b/qt4-im/Makefile
-@@ -4,11 +4,11 @@
+@@ -4,11 +4,11 @@ QTIM=$(QT)/plugins/inputmethods
  IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
  
  INCS=-I../im-client -I/usr/include/X11 `pkg-config QtCore QtGui --cflags`
@@ -44,87 +143,11 @@ Last-Update: 2013-08-02
  all:    im-gcin.so
  
  .cpp.E:
---- a/suffixes-rule
-+++ b/suffixes-rule
-@@ -12,7 +12,8 @@
- 	$(CCX) $(CFLAGS) -E -o $@ $<
- 
- 
--CFLAGS= -DUNIX=1 $(WALL) $(OPTFLAGS) $(GTKINC) -I./IMdkit/include -I./im-client -DDEBUG="0$(GCIN_DEBUG)" \
-+CFLAGS+= \
-+        -DUNIX=1 $(WALL) $(OPTFLAGS) $(GTKINC) -I./IMdkit/include -I./im-client -DDEBUG="0$(GCIN_DEBUG)" \
-         -DGCIN_TABLE_DIR=\"$(GCIN_TABLE_DIR)\" \
-         -DGCIN_OGG_DIR=\"$(GCIN_OGG_DIR)\" \
-         -DDOC_DIR=\"$(DOC_DIR)\" \
---- a/gtk-im/Makefile
-+++ b/gtk-im/Makefile
-@@ -13,7 +13,7 @@
- endif
- 
- .SUFFIXES:	.c .o .E
--CFLAGS = $(OPTFLAGS) $(EXTRA_INC) $(GTKINC) -I../im-client -I.. -DUNIX=1 \
-+CFLAGS += $(OPTFLAGS) $(EXTRA_INC) $(GTKINC) -I../im-client -I.. -DUNIX=1 \
- -I../IMdkit/include -DCLIENT_LIB=1 -DMAC_OS=$(MAC_OS) -DFREEBSD=$(FREEBSD)
- 
- .c.o:
---- a/gtk3-im/Makefile
-+++ b/gtk3-im/Makefile
-@@ -14,7 +14,7 @@
- endif
- 
- .SUFFIXES:	.c .o .E
--CFLAGS = $(OPTFLAGS) $(EXTRA_INC) $(GTKINC) -I../im-client -I.. -DUNIX=1 \
-+CFLAGS += $(OPTFLAGS) $(EXTRA_INC) $(GTKINC) -I../im-client -I.. -DUNIX=1 \
- -I../IMdkit/include -DCLIENT_LIB=1 -DMAC_OS=$(MAC_OS) -DFREEBSD=$(FREEBSD)
- 
- .c.o:
---- a/data/Makefile
-+++ b/data/Makefile
-@@ -1,7 +1,7 @@
- include ../config.mak
- 
- .SUFFIXES:	.kbmsrc .kbm .cin .gtab
--CFLAGS= -DUNIX=1 $(WALL) $(OPTFLAGS) $(GTKINC) -I.. -DDEBUG="0$(GCIN_DEBUG)"
-+CFLAGS += -DUNIX=1 $(WALL) $(OPTFLAGS) $(GTKINC) -I.. -DDEBUG="0$(GCIN_DEBUG)"
- export NO_GTK_INIT=
- export GCIN_NO_RELOAD=
- 
---- a/im-client/Makefile
-+++ b/im-client/Makefile
-@@ -5,7 +5,7 @@
- 
- .SUFFIXES:      .c .o .E .cpp
- WALL=-Wall
--CFLAGS= -DUNIX=1 $(WALL) $(OPTFLAGS) -I. -I.. -I../IMdkit/include $(GTKINC) \
-+CFLAGS += -DUNIX=1 $(WALL) $(OPTFLAGS) -I. -I.. -I../IMdkit/include $(GTKINC) \
-         -DCLIENT_LIB=1 -DGCIN_BIN_DIR=\"$(GCIN_BIN_DIR)\" -DUNIX=1 \
-         -DDEBUG="0$(GCIN_DEBUG)" -DGCIN_TABLE_DIR=\"$(GCIN_TABLE_DIR)\" \
-         -DFREEBSD=$(FREEBSD) -fPIC
---- a/IMdkit/lib/Makefile
-+++ b/IMdkit/lib/Makefile
-@@ -1,7 +1,7 @@
- include ../../config.mak
- 
- #CFLAGS =  -c -O2 -fno-strength-reduce -Dlinux -D__i386__ -D_POSIX_C_SOURCE=199309L -D_POSIX_SOURCE -D_XOPEN_SOURCE=500L -D_BSD_SOURCE -D_SVID_SOURCE   -DFUNCPROTO=15 -DNARROWPROTO   -DUNIXCONN -DTCPCONN -DXIM_t -DTRANS_SERVER
--CFLAGS =  -c $(OPTFLAGS) -fno-strength-reduce -DXIM_t -DTRANS_SERVER
-+CFLAGS +=  -c $(OPTFLAGS) -fno-strength-reduce -DXIM_t -DTRANS_SERVER
- INC = -I../include -I/usr/X11R6/include
- 
- 
---- a/qt-im/Makefile
-+++ b/qt-im/Makefile
-@@ -3,7 +3,7 @@
- QTIM=$(QT)/plugins/inputmethods
- IMMODULES=$(libdir)/$(QTIM)
- INCS=-I../im-client -I/usr/include `pkg-config --cflags qt-mt` -I/usr/include/Xft2/X11/Xft  -I/usr/include/fontconfig -I/usr/include/freetype2
--CXXFLAGS=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT_THREAD_SUPPORT -DQT_PLUGIN -DQT_SHARED -DQT_NO_DEBUG
-+CXXFLAGS+=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT_THREAD_SUPPORT -DQT_PLUGIN -DQT_SHARED -DQT_NO_DEBUG
- OBJS=qgcininputcontextplugin.o qgcininputcontextplugin_my.o qgcininputcontext.o qgcininputcontext_x11.o
- .SUFFIXES:	.c .cpp .a .so .E .h
- LDFLAGS=-L../im-client -lgcin-im-client -Wl,-rpath,$(gcinlibdir) `pkg-config qt-mt --libs`
+diff --git a/qt5-im/Makefile b/qt5-im/Makefile
+index 015a6c4..aa6ff9f 100644
 --- a/qt5-im/Makefile
 +++ b/qt5-im/Makefile
-@@ -6,13 +6,12 @@
+@@ -6,13 +6,12 @@ IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
  INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui Qt5PlatformSupport QtDBus --cflags`
  # dirty fix for ubuntu 14.04,  pkg-config Qt5Gui --cflags return -I/usr/include/qt5/QtGui, missing 5.2.1/QtGui
  MODVERSION=`pkg-config --modversion Qt5Gui`
@@ -141,3 +164,17 @@ Last-Update: 2013-08-02
  
  GCIN_QT5 = libgcinplatforminputcontextplugin.so
  
+diff --git a/suffixes-rule b/suffixes-rule
+index ccddcab..4fdf66b 100644
+--- a/suffixes-rule
++++ b/suffixes-rule
+@@ -12,7 +12,8 @@
+ 	$(CCX) $(CFLAGS) -E -o $@ $<
+ 
+ 
+-CFLAGS= -DUNIX=1 $(WALL) $(OPTFLAGS) $(GTKINC) -I./IMdkit/include -I./im-client -DDEBUG="0$(GCIN_DEBUG)" \
++CFLAGS+= \
++        -DUNIX=1 $(WALL) $(OPTFLAGS) $(GTKINC) -I./IMdkit/include -I./im-client -DDEBUG="0$(GCIN_DEBUG)" \
+         -DGCIN_TABLE_DIR=\"$(GCIN_TABLE_DIR)\" \
+         -DGCIN_OGG_DIR=\"$(GCIN_OGG_DIR)\" \
+         -DDOC_DIR=\"$(DOC_DIR)\" \

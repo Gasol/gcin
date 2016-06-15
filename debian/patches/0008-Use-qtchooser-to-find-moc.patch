@@ -1,7 +1,18 @@
-Description: Use qtchooser to find moc
+From b3f20d97d9b2566ce30e29e8c9e36734b8d98fdb Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?ChangZhuo=20Chen=20=28=E9=99=B3=E6=98=8C=E5=80=AC=29?=
+ <czchen@debian.org>
+Date: Wed, 15 Jun 2016 19:06:32 +0800
+Subject: Use qtchooser to find moc
+
+---
+ configure | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
+
+diff --git a/configure b/configure
+index 721b3b1..7df0567 100755
 --- a/configure
 +++ b/configure
-@@ -314,13 +314,7 @@
+@@ -314,13 +314,7 @@ if [ $QT4_IM = 'N' ]; then
    mv gcin.spec gcin.spec.tmp
    grep -v qt4/plugins/inputmethods gcin.spec.tmp > gcin.spec
  else
@@ -16,7 +27,7 @@ Description: Use qtchooser to find moc
  fi
  
  
-@@ -328,13 +322,7 @@
+@@ -328,13 +322,7 @@ if [ $QT5_IM = 'N' ]; then
    mv gcin.spec gcin.spec.tmp
    grep -v qt5/plugins/inputmethods gcin.spec.tmp > gcin.spec
  else

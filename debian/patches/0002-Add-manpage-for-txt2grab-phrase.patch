@@ -1,8 +1,20 @@
-Description: Add manpage for txt2grab-phrase
+From b9b8a7a15e489c17cc9750e7699d00f67c5f3274 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Yao=20Wei=20=28=E9=AD=8F=E9=8A=98=E5=BB=B7=29?=
+ <mwei@lxde.org>
+Date: Wed, 15 Jun 2016 19:06:25 +0800
+Subject: Add manpage for txt2grab-phrase
+
  Not yet pushed to upstream.
-Author: Yao Wei (魏銘廷) <mwei@lxde.org>
 Forwarded: http://hyperrate.com/thread.php?tid=27632
 Last-Update: 2012-07-11
+---
+ man/txt2gtab-phrase.1 | 66 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
+ create mode 100644 man/txt2gtab-phrase.1
+
+diff --git a/man/txt2gtab-phrase.1 b/man/txt2gtab-phrase.1
+new file mode 100644
+index 0000000..1e59250
 --- /dev/null
 +++ b/man/txt2gtab-phrase.1
 @@ -0,0 +1,66 @@

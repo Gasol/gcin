@@ -1,0 +1,21 @@
+From 08aaeaf560c40dda5b953426a5a2f9740ced81fa Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Yao=20Wei=20=28=E9=AD=8F=E9=8A=98=E5=BB=B7=29?=
+ <mwei@lxde.org>
+Date: Wed, 15 Jun 2016 19:06:26 +0800
+Subject: Add keyword entry to gcin configuration tool
+
+ Not yet pushed to upstream
+Last-Update: 2013-08-02
+---
+ menu/gcin-tools.desktop | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/menu/gcin-tools.desktop b/menu/gcin-tools.desktop
+index 852103a..1ee814e 100644
+--- a/menu/gcin-tools.desktop
++++ b/menu/gcin-tools.desktop
+@@ -13,3 +13,4 @@ Terminal=false
+ Type=Application
+ StartupNotify=true
+ Categories=Settings;
++Keywords=input;ime;gcin;keyboard;

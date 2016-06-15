@@ -627,6 +627,8 @@ int main(int argc, char **argv)
       v = kk64 >> TSIN_HASH_SHIFT_64;
     }
 
+    v &= 0xff;
+
     if (v >= TSIN_HASH_N)
       p_err("error found %d", v);
 

@@ -1,10 +1,20 @@
-Description: Fix sparc build by removing lib64 path detection
+From bfd4833171e97cedc9b9b93c4267d6e42a61b089 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Yao=20Wei=20=28=E9=AD=8F=E9=8A=98=E5=BB=B7=29?=
+ <mwei@lxde.org>
+Date: Wed, 15 Jun 2016 19:06:27 +0800
+Subject: Fix sparc build by removing lib64 path detection
+
  Not yet pushed to upstream
-Author: Yao Wei (魏銘廷) <mwei@lxde.org>
 Last-Update: 2013-10-01
+---
+ configure | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/configure b/configure
+index 8ed1cbb..769e7cf 100755
 --- a/configure
 +++ b/configure
-@@ -197,11 +197,11 @@
+@@ -197,11 +197,11 @@ fi
  
  
  LIB='lib'
