@@ -6,3 +6,6 @@
 gcin_2.8.4+dfsg1.orig.tar.xz
 e3cc84d021a8eb34668dd4023055f4d861e3adb8
 4204308
+debianTag="debian/%f%v"
+patchedTag="patched/%f%v"
+upstreamTag="upstream/%u"
