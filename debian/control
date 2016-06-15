@@ -17,8 +17,8 @@ Build-Depends: debhelper (>= 9.20151219),
                qtbase5-private-dev,
                qtchooser,
 Standards-Version: 3.9.6
-Vcs-Git: git://anonscm.debian.org/pkg-ime/gcin.git -b debian/sid
-Vcs-Browser: http://anonscm.debian.org/cgit/pkg-ime/gcin.git/?h=debian/sid
+Vcs-Git: https://anonscm.debian.org/git/pkg-ime/gcin.git
+Vcs-Browser: https://anonscm.debian.org/git/pkg-ime/gcin.git
 
 Package: gcin
 Architecture: any
