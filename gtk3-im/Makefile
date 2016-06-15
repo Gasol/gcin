@@ -14,7 +14,7 @@ EXTRA_INC=-I/sw/include
 endif
 
 .SUFFIXES:	.c .o .E
-CFLAGS = $(OPTFLAGS) $(EXTRA_INC) $(GTKINC) -I../im-client -I.. -DUNIX=1 \
+CFLAGS += $(OPTFLAGS) $(EXTRA_INC) $(GTKINC) -I../im-client -I.. -DUNIX=1 \
 -I../IMdkit/include -DCLIENT_LIB=1 -DMAC_OS=$(MAC_OS) -DFREEBSD=$(FREEBSD)
 
 .c.o:
