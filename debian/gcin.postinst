@@ -8,12 +8,14 @@ ua_remove () {
 
 case "$1" in
     configure)
-        dpkg --compare-versions $2 lt 2.8.4+dfsg1-4~
-        if [ $? ]; then
-            ua_remove all_ALL gcin
-            ua_remove zh_CN   gcin
-            ua_remove ja_JP   gcin
-            ua_remove zh_TW   gcin
+        if [ x$2 != x ]; then
+            dpkg --compare-versions $2 lt 2.8.4+dfsg1-4~
+            if [ $? ]; then
+                ua_remove all_ALL gcin
+                ua_remove zh_CN   gcin
+                ua_remove ja_JP   gcin
+                ua_remove zh_TW   gcin
+            fi
         fi
         ;;
 
