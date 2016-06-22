@@ -1,3 +1,9 @@
+gcin (2.8.4+dfsg1-5) unstable; urgency=medium
+
+  * Fix maintainer script error when install. (Closes: #827847)
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Wed, 22 Jun 2016 08:58:12 +0800
+
 gcin (2.8.4+dfsg1-4) unstable; urgency=medium
 
   * Remove Debian specific menu.
