@@ -8,3 +8,4 @@
 0008-Use-qtchooser-to-find-moc.patch
 0009-Remove-__DATE__-for-reproducible-build.patch
 0010-Remove-Qt5PlatformSupport.patch
+0011-Reproducible-build.patch
