@@ -19,6 +19,8 @@ int main()
   if ((fp=fopen(fnamein, "r"))==NULL)
     p_err("cannot open %s", fnamein);
 
+  memset(pinju, 0, sizeof(pinju));
+
   while (!feof(fp)) {
     char tt[128];
 
