@@ -1,3 +1,10 @@
+gcin (2.8.4+dfsg1-7) unstable; urgency=medium
+
+  * Use memset to remove randomness for reproducible build.
+    Thanks to Chris Lamb (Closes: #828074)
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Thu, 30 Jun 2016 00:19:51 +0800
+
 gcin (2.8.4+dfsg1-6) unstable; urgency=medium
 
   * Fix accessing uninitialized variable in maintainer script.
