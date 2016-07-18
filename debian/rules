@@ -15,9 +15,6 @@ GTK3_IMMODULES := $(shell pkg-config --variable=libdir gtk+-3.0)/libgtk-3-0/gtk-
 %:
 	dh $@
 
-override_dh_auto_clean:
-	make clean
-
 override_dh_auto_configure:
 	dh_auto_configure -- --gcinlibdir=/usr/lib/$(DEB_HOST_MULTIARCH)/gcin
 
