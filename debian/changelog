@@ -1,3 +1,10 @@
+gcin (2.8.4+dfsg1-9) unstable; urgency=medium
+
+  * Drop unnecessary override_dh_auto_clean rule.
+    Thanks to Jeremy Bicha (Closes: #831526)
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Mon, 18 Jul 2016 19:18:27 +0800
+
 gcin (2.8.4+dfsg1-8) unstable; urgency=medium
 
   * Fix buggy version comparison in gcin.postinst.
