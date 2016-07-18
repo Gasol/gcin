@@ -1,0 +1,21 @@
+From 09ebe5aeb43de190edcecf27df85834a63206860 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?ChangZhuo=20Chen=20=28=E9=99=B3=E6=98=8C=E5=80=AC=29?=
+ <czchen@debian.org>
+Date: Mon, 18 Jul 2016 19:10:43 +0800
+Subject: Update gcin-fedora.spec version
+
+---
+ gcin-fedora.spec | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gcin-fedora.spec b/gcin-fedora.spec
+index 22207cd..7abfb61 100644
+--- a/gcin-fedora.spec
++++ b/gcin-fedora.spec
+@@ -1,5 +1,5 @@
+ Name:           gcin
+-Version:        2.8.3
++Version:        2.8.4
+ Release:        liu%{?dist}
+ Summary:        Input method for Traditional Chinese
+ 

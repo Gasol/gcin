@@ -9,3 +9,4 @@
 0009-Remove-__DATE__-for-reproducible-build.patch
 0010-Remove-Qt5PlatformSupport.patch
 0011-Reproducible-build.patch
+0012-Update-gcin-fedora.spec-version.patch
