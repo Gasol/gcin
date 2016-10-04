@@ -1,3 +1,9 @@
+gcin (2.8.4+dfsg1-10) unstable; urgency=medium
+
+  * Avoid the crash in gnome-terminal.
+
+ -- Shih-Yuan Lee (FourDollars) <fourdollars@gmail.com>  Tue, 04 Oct 2016 21:31:54 +0800
+
 gcin (2.8.4+dfsg1-9) unstable; urgency=medium
 
   * Drop unnecessary override_dh_auto_clean rule.
