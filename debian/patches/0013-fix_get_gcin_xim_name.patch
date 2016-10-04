@@ -1,0 +1,21 @@
+From 4652465e3900ea858aef704e610858eea278b2bc Mon Sep 17 00:00:00 2001
+From: "Shih-Yuan Lee (FourDollars)" <fourdollars@gmail.com>
+Date: Tue, 4 Oct 2016 21:28:50 +0800
+Subject: fix_get_gcin_xim_name
+
+---
+ gcin-conf.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/gcin-conf.cpp b/gcin-conf.cpp
+index 6f56006..db0897d 100644
+--- a/gcin-conf.cpp
++++ b/gcin-conf.cpp
+@@ -172,6 +172,7 @@ char *get_gcin_xim_name()
+     static char sstr[32];
+     char *p = strstr(xim_name, find);
+ 
++    if (p == NULL) return "gcin";
+     p += strlen(find);
+     strncpy(sstr, p, sizeof(sstr));
+     sstr[sizeof(sstr) - 1]=0;

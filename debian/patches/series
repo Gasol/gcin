@@ -10,3 +10,4 @@
 0010-Remove-Qt5PlatformSupport.patch
 0011-Reproducible-build.patch
 0012-Update-gcin-fedora.spec-version.patch
+0013-fix_get_gcin_xim_name.patch
