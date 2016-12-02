@@ -1,0 +1,37 @@
+From 7bb471a3dd495a860c621848818467e51ed0d2c8 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?ChangZhuo=20Chen=20=28=E9=99=B3=E6=98=8C=E5=80=AC=29?=
+ <czchen@debian.org>
+Date: Sat, 3 Dec 2016 01:54:45 +0800
+Subject: Use QPlatformInputContextFactoryInterface_iid
+
+---
+ qt5-im/Makefile   | 2 +-
+ qt5-im/gcin-qt5.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/qt5-im/Makefile b/qt5-im/Makefile
+index 1fa4fca..53bdc34 100644
+--- a/qt5-im/Makefile
++++ b/qt5-im/Makefile
+@@ -21,7 +21,7 @@ all:    $(GCIN_QT5)
+ 	$(CXX) -E $(CFLAGS) $(INCS) $< > $@
+ 
+ moc_gcin-qt5.cpp:	gcin-qt5.h
+-	$(QT5_MOC) $< -o $@
++	$(QT5_MOC) $(INCS) $< -o $@
+ 
+ moc_qgcinplatforminputcontext.cpp:	qgcinplatforminputcontext.h
+ 	$(QT5_MOC) $< -o $@
+diff --git a/qt5-im/gcin-qt5.h b/qt5-im/gcin-qt5.h
+index 63aacc0..a72ea76 100644
+--- a/qt5-im/gcin-qt5.h
++++ b/qt5-im/gcin-qt5.h
+@@ -9,7 +9,7 @@ class QGcinPlatformInputContextPlugin : public QPlatformInputContextPlugin
+ {
+     Q_OBJECT
+ public:
+-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QPlatformInputContextFactoryInterface" FILE "gcin.json")
++    Q_PLUGIN_METADATA(IID QPlatformInputContextFactoryInterface_iid FILE "gcin.json")
+     QStringList keys() const;
+     QGcinPlatformInputContext *create(const QString& system, const QStringList& paramList);
+ };
