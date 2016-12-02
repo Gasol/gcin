@@ -1,3 +1,9 @@
+gcin (2.8.4+dfsg1-11) unstable; urgency=medium
+
+  * Fix Qt5 plugin. (Closes: #844407)
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Sat, 03 Dec 2016 02:00:43 +0800
+
 gcin (2.8.4+dfsg1-10) unstable; urgency=medium
 
   * Avoid the crash in gnome-terminal.
