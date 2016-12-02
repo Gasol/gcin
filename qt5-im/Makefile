@@ -20,7 +20,7 @@ all:    $(GCIN_QT5)
 	$(CXX) -E $(CFLAGS) $(INCS) $< > $@
 
 moc_gcin-qt5.cpp:	gcin-qt5.h
-	$(QT5_MOC) $< -o $@
+	$(QT5_MOC) $(INCS) $< -o $@
 
 moc_qgcinplatforminputcontext.cpp:	qgcinplatforminputcontext.h
 	$(QT5_MOC) $< -o $@
