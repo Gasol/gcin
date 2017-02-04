@@ -1,4 +1,4 @@
-From bfd4833171e97cedc9b9b93c4267d6e42a61b089 Mon Sep 17 00:00:00 2001
+From 7b1775e6a1f8bf91618933cca9d750aa1c5eefca Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Yao=20Wei=20=28=E9=AD=8F=E9=8A=98=E5=BB=B7=29?=
  <mwei@lxde.org>
 Date: Wed, 15 Jun 2016 19:06:27 +0800
@@ -7,14 +7,14 @@ Subject: Fix sparc build by removing lib64 path detection
  Not yet pushed to upstream
 Last-Update: 2013-10-01
 ---
- configure | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ configure | 5 -----
+ 1 file changed, 5 deletions(-)
 
 diff --git a/configure b/configure
-index 8ed1cbb..769e7cf 100755
+index 930835d..a13e413 100755
 --- a/configure
 +++ b/configure
-@@ -197,11 +197,11 @@ fi
+@@ -205,11 +205,6 @@ fi
  
  
  LIB='lib'
@@ -23,11 +23,6 @@ index 8ed1cbb..769e7cf 100755
 -# for fedora 64bit
 -GTK_QUERY_IM_64='-64'
 -fi
-+#if [ -d /usr/lib64 -a -d /lib64 -a ! -d /lib/x86_64-linux-gnu ]; then
-+#LIB='lib64'
-+## for fedora 64bit
-+#GTK_QUERY_IM_64='-64'
-+#fi
  
  QT_IM='N'
  QT_IM_DIR=/usr/$LIB/qt3/plugins/inputmethods

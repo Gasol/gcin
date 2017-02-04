@@ -4,7 +4,6 @@ QTIM=$(QT)/plugins/platforminputcontexts
 IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
 
 INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui QtDBus --cflags`
-# dirty fix for ubuntu 14.04,  pkg-config Qt5Gui --cflags return -I/usr/include/qt5/QtGui, missing 5.2.1/QtGui
 MODVERSION=`pkg-config --modversion Qt5Gui`
 INCS+=-I`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)/QtGui
 

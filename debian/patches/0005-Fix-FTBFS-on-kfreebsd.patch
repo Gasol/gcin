@@ -1,4 +1,4 @@
-From 11a8eb9c5ea96c8b7054460f09b404e8e38fbb7d Mon Sep 17 00:00:00 2001
+From c906be98b276bbef873322b30de0d0900768637e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?ChangZhuo=20Chen=20=28=E9=99=B3=E6=98=8C=E5=80=AC=29?=
  <czchen@debian.org>
 Date: Wed, 15 Jun 2016 19:06:28 +0800
@@ -9,7 +9,7 @@ Subject: Fix FTBFS on kfreebsd-*
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure b/configure
-index 769e7cf..721b3b1 100755
+index a13e413..a2e16f3 100755
 --- a/configure
 +++ b/configure
 @@ -28,7 +28,7 @@ if [ $? = 0 ]; then

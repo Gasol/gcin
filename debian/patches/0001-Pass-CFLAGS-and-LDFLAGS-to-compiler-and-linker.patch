@@ -1,4 +1,4 @@
-From d3101f41d69cac664fe9592834535657348855a8 Mon Sep 17 00:00:00 2001
+From b60f23c16373173511453eda0a012bcafda22f68 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Yao=20Wei=20=28=E9=AD=8F=E9=8A=98=E5=BB=B7=29?=
  <mwei@lxde.org>
 Date: Wed, 15 Jun 2016 19:06:24 +0800
@@ -19,9 +19,9 @@ Last-Update: 2013-08-02
  im-client/Makefile  | 2 +-
  qt-im/Makefile      | 2 +-
  qt4-im/Makefile     | 4 ++--
- qt5-im/Makefile     | 7 +++----
+ qt5-im/Makefile     | 8 +++-----
  suffixes-rule       | 3 ++-
- 10 files changed, 17 insertions(+), 15 deletions(-)
+ 10 files changed, 17 insertions(+), 16 deletions(-)
 
 diff --git a/IMdkit/lib/Makefile b/IMdkit/lib/Makefile
 index f663b6b..7bcfcda 100644
@@ -37,7 +37,7 @@ index f663b6b..7bcfcda 100644
  
  
 diff --git a/configure b/configure
-index ebb710f..8ed1cbb 100755
+index 222cf2f..930835d 100755
 --- a/configure
 +++ b/configure
 @@ -38,7 +38,7 @@ if [ $? = 0 ]; then
@@ -49,7 +49,7 @@ index ebb710f..8ed1cbb 100755
  MAC_OS=0
  uname | grep Darwin > /dev/null 2> /dev/null
  if [ $? = 0 ]; then
-@@ -365,7 +365,9 @@ echo "datadir_r=$datadir" >> config.mak
+@@ -382,7 +382,9 @@ echo "datadir_r=$datadir" >> config.mak
  echo "libdir=\$(DESTDIR)$libdir" >> config.mak
  echo "gcinlibdir=\$(DESTDIR)$gcinlibdir" >> config.mak
  echo "includedir=\$(DESTDIR)$includedir" >> config.mak
@@ -144,15 +144,16 @@ index 742407b..c4c7f92 100644
  
  .cpp.E:
 diff --git a/qt5-im/Makefile b/qt5-im/Makefile
-index 015a6c4..aa6ff9f 100644
+index 84a784f..60c140f 100644
 --- a/qt5-im/Makefile
 +++ b/qt5-im/Makefile
-@@ -6,13 +6,12 @@ IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
+@@ -5,14 +5,12 @@ IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
+ 
  INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui Qt5PlatformSupport QtDBus --cflags`
- # dirty fix for ubuntu 14.04,  pkg-config Qt5Gui --cflags return -I/usr/include/qt5/QtGui, missing 5.2.1/QtGui
  MODVERSION=`pkg-config --modversion Qt5Gui`
--INCS+=-I/usr/include/qt5/QtGui/$(MODVERSION)/QtGui -I/usr/include/i386-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui
--INCS+=-I/usr/include/x86_64-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui
+-QTINC=`pkg-config --variable=includedir Qt5Gui`
+-INCS+=-I$(QTINC)/QtGui/$(MODVERSION)/QtGui
+-#INCS+=-I/usr/include/i386-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui
 +INCS+=-I`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)/QtGui
  
 -CXXFLAGS=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT5 -DQT_SHARED -DQT_IMMODULE -DPIC -DDEBUG="0$(GCIN_DEBUG)"

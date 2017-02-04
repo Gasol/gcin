@@ -59,6 +59,7 @@ use_qt3='N'
 use_qt4='Y'
 use_qt5='Y'
 use_gtk3='Y'
+use_uigtk3='N'
 
 if [ "$GCIN_USE_XIM" ]; then
   use_xim=$GCIN_USE_XIM
@@ -90,6 +91,8 @@ for opt do
   ;;
   --use_gtk3*) use_gtk3=`echo $opt | cut -d '=' -f 2`
   ;;
+  --use_uigtk3*) use_uigtk3=`echo $opt | cut -d '=' -f 2`
+  ;;
   --gcinlibdir*) gcinlibdir=`echo $opt | cut -d '=' -f 2`
   ;;
   --doc_version_dir*) doc_version_dir=`echo $opt | cut -d '=' -f 2`
@@ -97,9 +100,14 @@ for opt do
 done
 
 echo "prefix: $prefix"
+testgtk="gtk+-2.0 gtk+-3.0"
+echo $use_uigtk3
+if [ $use_uigtk3 = 'Y' ]; then
+  testgtk="gtk+-3.0"
+fi 
 
 #for i in gtk+-3.0 gtk+-2.0
-for i in gtk+-2.0 gtk+-3.0
+for i in $testgtk 
 do
   echo -n ".... Testing $i : "
   GTKINC=`pkg-config --cflags $i 2>/dev/null`
@@ -117,7 +125,7 @@ do
   fi
 done
 
-if [ $GTK = '' ]; then
+if [ -z $GTK ]; then
   echo "According to pkg-config, GTK 2.0 or 3.0 WAS NOT FOUND."
   echo "please install rpm/package libgtk+2.0_0-devel or libgtk+3.0_0-devel"
   rm -f config.mak
@@ -197,11 +205,6 @@ fi
 
 
 LIB='lib'
-#if [ -d /usr/lib64 -a -d /lib64 -a ! -d /lib/x86_64-linux-gnu ]; then
-#LIB='lib64'
-## for fedora 64bit
-#GTK_QUERY_IM_64='-64'
-#fi
 
 QT_IM='N'
 QT_IM_DIR=/usr/$LIB/qt3/plugins/inputmethods
@@ -338,7 +341,7 @@ if [ -z $CC ]; then
 fi
 
 echo "CC=$CC" > config.mak
-echo "CCX=$CC -x c" >> config.mak
+echo "CCX=$CC -x c -std=gnu99" >> config.mak
 echo "CXX=$CC" >> config.mak
 echo "CCLD=$CC" >> config.mak
 echo "MAKE=$MAKE" >> config.mak

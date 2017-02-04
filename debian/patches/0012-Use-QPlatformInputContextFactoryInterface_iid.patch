@@ -1,4 +1,4 @@
-From 7bb471a3dd495a860c621848818467e51ed0d2c8 Mon Sep 17 00:00:00 2001
+From 6c224db76b1f0602e45346cf80fdcf8528473400 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?ChangZhuo=20Chen=20=28=E9=99=B3=E6=98=8C=E5=80=AC=29?=
  <czchen@debian.org>
 Date: Sat, 3 Dec 2016 01:54:45 +0800
@@ -10,10 +10,10 @@ Subject: Use QPlatformInputContextFactoryInterface_iid
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/qt5-im/Makefile b/qt5-im/Makefile
-index 1fa4fca..53bdc34 100644
+index 9ed5dda..eb57425 100644
 --- a/qt5-im/Makefile
 +++ b/qt5-im/Makefile
-@@ -21,7 +21,7 @@ all:    $(GCIN_QT5)
+@@ -20,7 +20,7 @@ all:    $(GCIN_QT5)
  	$(CXX) -E $(CFLAGS) $(INCS) $< > $@
  
  moc_gcin-qt5.cpp:	gcin-qt5.h

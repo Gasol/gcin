@@ -1,18 +1,18 @@
-From b3f20d97d9b2566ce30e29e8c9e36734b8d98fdb Mon Sep 17 00:00:00 2001
+From 26ba4898abe803e794f0cb6edb7213b3966e15b8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?ChangZhuo=20Chen=20=28=E9=99=B3=E6=98=8C=E5=80=AC=29?=
  <czchen@debian.org>
 Date: Wed, 15 Jun 2016 19:06:32 +0800
 Subject: Use qtchooser to find moc
 
 ---
- configure | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+ configure | 25 ++-----------------------
+ 1 file changed, 2 insertions(+), 23 deletions(-)
 
 diff --git a/configure b/configure
-index 721b3b1..7df0567 100755
+index a2e16f3..32f679b 100755
 --- a/configure
 +++ b/configure
-@@ -314,13 +314,7 @@ if [ $QT4_IM = 'N' ]; then
+@@ -317,13 +317,7 @@ if [ $QT4_IM = 'N' ]; then
    mv gcin.spec gcin.spec.tmp
    grep -v qt4/plugins/inputmethods gcin.spec.tmp > gcin.spec
  else
@@ -27,10 +27,19 @@ index 721b3b1..7df0567 100755
  fi
  
  
-@@ -328,13 +322,7 @@ if [ $QT5_IM = 'N' ]; then
+@@ -331,22 +325,7 @@ if [ $QT5_IM = 'N' ]; then
    mv gcin.spec gcin.spec.tmp
    grep -v qt5/plugins/inputmethods gcin.spec.tmp > gcin.spec
  else
+-  cd qt5-im
+-  pkg-config --modversion Qt5Core | grep 5.5.1 > /dev/null 2> /dev/null
+-  if [ $? = 0 ]; then
+-    echo "You have Qt 5.5.1"
+-    sed -e "s/FactoryInterface/FactoryInterface.5.1/" < gcin-qt5.h.in > gcin-qt5.h
+-  else
+-    cp gcin-qt5.h.in gcin-qt5.h
+-  fi
+-  cd ..
 -  for i in /usr/share/qt5/bin/moc /usr/lib/qt5/bin/moc /usr/lib/x86_64-linux-gnu/qt5/bin/moc /usr/lib/i386-linux-gnu/qt5/bin/moc /usr/lib64/qt5/bin/moc /usr/bin/moc
 -  do
 -    [ ! -x $i ] && continue
