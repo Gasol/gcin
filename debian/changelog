@@ -1,3 +1,9 @@
+gcin (2.8.5+dfsg1-1) unstable; urgency=medium
+
+  * Merge to unstable.
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Sun, 18 Jun 2017 19:59:02 +0800
+
 gcin (2.8.5+dfsg1-1~exp1) experimental; urgency=medium
 
   * New upstream release.
