@@ -3,8 +3,10 @@ QT=qt5
 QTIM=$(QT)/plugins/platforminputcontexts
 IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
 
-INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui QtDBus --cflags`
+INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui --cflags`
 MODVERSION=`pkg-config --modversion Qt5Gui`
+INCS+=-I`pkg-config --variable=includedir Qt5Core`/QtCore/$(MODVERSION)
+INCS+=-I`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)
 INCS+=-I`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)/QtGui
 
 CXXFLAGS+=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT5 -DQT_SHARED -DQT_IMMODULE -DPIC -DDEBUG="0$(GCIN_DEBUG)"
