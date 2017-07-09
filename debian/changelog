@@ -1,3 +1,10 @@
+gcin (2.8.5+dfsg1-2) unstable; urgency=medium
+
+  [ Dmitry Shachnev ]
+  * Fix build with Qt 5.9 (Closes: #867573).
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Sun, 09 Jul 2017 09:07:43 +0800
+
 gcin (2.8.5+dfsg1-1) unstable; urgency=medium
 
   * Merge to unstable.
