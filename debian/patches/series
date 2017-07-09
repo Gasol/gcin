@@ -10,3 +10,4 @@
 0010-Remove-Qt5PlatformSupport.patch
 0011-Reproducible-build.patch
 0012-Use-QPlatformInputContextFactoryInterface_iid.patch
+0013-fix-build-with-Qt-5.9.patch

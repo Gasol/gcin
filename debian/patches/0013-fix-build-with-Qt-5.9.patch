@@ -1,0 +1,26 @@
+From ec6ddf539cdda6be49ff1fee5c0e1bc0fe9d4482 Mon Sep 17 00:00:00 2001
+From: Dmitry Shachnev <mitya57@debian.org>
+Date: Sun, 9 Jul 2017 09:07:01 +0800
+Subject: fix build with Qt 5.9
+
+Closes: #867573
+---
+ qt5-im/Makefile | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/qt5-im/Makefile b/qt5-im/Makefile
+index eb57425..9351813 100644
+--- a/qt5-im/Makefile
++++ b/qt5-im/Makefile
+@@ -3,8 +3,10 @@ QT=qt5
+ QTIM=$(QT)/plugins/platforminputcontexts
+ IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
+ 
+-INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui QtDBus --cflags`
++INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui --cflags`
+ MODVERSION=`pkg-config --modversion Qt5Gui`
++INCS+=-I`pkg-config --variable=includedir Qt5Core`/QtCore/$(MODVERSION)
++INCS+=-I`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)
+ INCS+=-I`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)/QtGui
+ 
+ CXXFLAGS+=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT5 -DQT_SHARED -DQT_IMMODULE -DPIC -DDEBUG="0$(GCIN_DEBUG)"
