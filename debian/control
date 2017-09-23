@@ -13,7 +13,6 @@ Build-Depends: debhelper (>= 10),
                libappindicator3-dev,
                libgtk2.0-dev (>= 2.20.0),
                libgtk-3-dev,
-               libqt4-dev,
                libxtst-dev,
                qtbase5-private-dev,
                qtchooser,
@@ -33,7 +32,6 @@ Recommends: im-config,
             gcin-gtk2-immodule,
             gcin-gtk3-immodule,
 Suggests: gcin-anthy,
-          gcin-qt4-immodule,
           gcin-qt5-immodule,
           gcin-voice,
 Description: GTK+ based input method for Chinese users
@@ -46,7 +44,6 @@ Description: GTK+ based input method for Chinese users
  .
   * gcin-gtk2-immodule for GTK2
   * gcin-gtk3-immodule for GTK3
-  * gcin-qt4-immodule for Qt4
   * gcin-qt5-immodule for Qt5
 
 Package: gcin-data
@@ -113,19 +110,6 @@ Description: GTK3 input method module with gcin as backend
  and many other languages.
  .
  This package is the GTK3 input method module (immodule) for gcin.
-
-Package: gcin-qt4-immodule
-Architecture: any
-Multi-Arch: same
-Depends: ${misc:Depends},
-         ${shlibs:Depends},
-         gcin (>= ${source:Version}),
-Description: Qt4 input method module with gcin as backend
- gcin is a GTK+ based input method which focused mainly on Traditional
- Chinese. However, it is also very useful for Simplified Chinese, Japanese,
- and many other languages.
- .
- This package is the Qt4 input method module (immodule) for gcin.
 
 Package: gcin-qt5-immodule
 Architecture: any
