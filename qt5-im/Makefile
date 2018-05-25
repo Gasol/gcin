@@ -10,10 +10,10 @@ INCS+=-I`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)
 INCS+=-I`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)/QtGui
 #INCS+=-I/usr/include/i386-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui
 
-CXXFLAGS=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT5 -DQT_SHARED -DQT_IMMODULE -DPIC -DDEBUG="0$(GCIN_DEBUG)"
+CXXFLAGS+=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT5 -DQT_SHARED -DQT_IMMODULE -DPIC -DDEBUG="0$(GCIN_DEBUG)"
 OBJS= moc_gcin-qt5.o gcin-qt5.o gcin-imcontext-qt5.o moc_qgcinplatforminputcontext.o
 .SUFFIXES:	.c .cpp .a .so .E .h
-LDFLAGS=-L../im-client -lgcin-im-client `pkg-config Qt5Core Qt5Gui --libs`
+LDFLAGS+=-L../im-client -lgcin-im-client `pkg-config Qt5Core Qt5Gui --libs`
 
 GCIN_QT5 = libgcinplatforminputcontextplugin.so
 
@@ -23,7 +23,7 @@ all:    $(GCIN_QT5)
 	$(CXX) -E $(CFLAGS) $(INCS) $< > $@
 
 moc_gcin-qt5.cpp:	gcin-qt5.h
-	$(QT5_MOC) $< -o $@
+	$(QT5_MOC) $(INCS) $< -o $@
 
 moc_qgcinplatforminputcontext.cpp:	qgcinplatforminputcontext.h
 	$(QT5_MOC) $< -o $@
