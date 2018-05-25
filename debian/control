@@ -6,7 +6,7 @@ Uploaders: Yao Wei (魏銘廷) <mwei@lxde.org>,
            ChangZhuo Chen (陳昌倬) <czchen@debian.org>,
            Shih-Yuan Lee (FourDollars) <fourdollars@gmail.com>,
 Homepage: http://hyperrate.com/dir.php?eid=67
-Build-Depends: debhelper (>= 10),
+Build-Depends: debhelper (>= 11),
                dpkg-dev (>= 1.16.1~),
                libanthy-dev,
                libappindicator3-dev,
