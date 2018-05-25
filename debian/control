@@ -16,8 +16,8 @@ Build-Depends: debhelper (>= 10),
                qtbase5-private-dev,
                qtchooser,
 Standards-Version: 4.1.0
-Vcs-Git: https://anonscm.debian.org/git/pkg-ime/gcin.git
-Vcs-Browser: https://anonscm.debian.org/git/pkg-ime/gcin.git
+Vcs-Git: https://salsa.debian.org/debian/gcin.git
+Vcs-Browser: https://salsa.debian.org/debian/gcin
 
 Package: gcin
 Architecture: any
