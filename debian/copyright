@@ -6,6 +6,8 @@ Files-Excluded:
  .configure.swp
  data/dayi3.cin
  gcin-*.tar.xz
+ gtabdb-gen
+ l
 Comment:
  Dayi input method is removed because it is dfsg non-free. (See #652553)
 
