@@ -1,11 +1,13 @@
-gcin (2.8.6+dfsg2-1) UNRELEASED; urgency=medium
+gcin (2.8.6+dfsg2-1) unstable; urgency=medium
 
   * New upstream release.
+  * Bump Standards-Version to 4.1.4.
+  * Bump compat to 11.
   * Update Vcs-* fields to salsa.
   * Use new team mailing list (Closes: #899847).
   * Update d/watch link to https.
 
- -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Fri, 25 May 2018 10:41:47 +0800
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Fri, 25 May 2018 11:31:04 +0800
 
 gcin (2.8.5+dfsg1-4) unstable; urgency=medium
 
@@ -258,7 +260,7 @@ gcin (2.7.5+dfsg-1) unstable; urgency=low
 gcin (2.7.4+dfsg-1) unstable; urgency=low
 
   * Imported Upstream version 2.7.4+dfsg
-  * debian/control, debian/copyright: 
+  * debian/control, debian/copyright:
     upgrade debian policy standard version to 3.9.3
 
  -- Yao Wei (魏銘廷) <mwei@lxde.org>  Thu, 01 Mar 2012 11:27:30 +0800
@@ -309,7 +311,7 @@ gcin (1.5.7~pre12-1) experimental; urgency=low
     debian/patches/009_add_tsin2gtab_phrase_manpage.diff: New.
   * debian/gcin-exit.1: New.
   * Updated Standards-Version to 3.9.1, no changes needed.
-  
+
  -- Kan-Ru Chen <koster@debian.org>  Mon, 29 Nov 2010 22:06:56 +0800
 
 gcin (1.4.6-3) unstable; urgency=low
@@ -367,7 +369,7 @@ gcin (1.4.5~pre2-1) unstable; urgency=low
 
   * [811fc3b] New Upstream version 1.4.5.pre2
   * [86b0996] Update patches.
-              - fix_gdm_crash_498619.diff: Dropped, fixed up stream.  
+              - fix_gdm_crash_498619.diff: Dropped, fixed up stream.
               - fix_QT_detection.diff: Split into two patches.
               - fix_anthy_error_message.diff: Added.
   * [dfa7a85] Enable anthy.
