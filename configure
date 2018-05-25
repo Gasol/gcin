@@ -28,7 +28,7 @@ if [ $? = 0 ]; then
 fi
 
 FREEBSD=0
-uname | grep FreeBSD | grep -v GNU/kFreeBSD > /dev/null 2> /dev/null
+uname | grep FreeBSD > /dev/null 2> /dev/null
 if [ $? = 0 ]; then
   FREEBSD=1
 fi
@@ -38,7 +38,7 @@ if [ $? = 0 ]; then
   FREEBSD=1
 fi
 
-SO_FLAGS="$CFLAGS $LDFLAGS -fPIC -Wl,--as-needed -shared"
+SO_FLAGS="-Wl,--as-needed -shared"
 MAC_OS=0
 uname | grep Darwin > /dev/null 2> /dev/null
 if [ $? = 0 ]; then
@@ -205,6 +205,11 @@ fi
 
 
 LIB='lib'
+if [ -d /usr/lib64 -a -d /lib64 -a ! -d /lib/x86_64-linux-gnu ]; then
+LIB='lib64'
+# for fedora 64bit
+GTK_QUERY_IM_64='-64'
+fi
 
 QT_IM='N'
 QT_IM_DIR=/usr/$LIB/qt3/plugins/inputmethods
@@ -317,7 +322,13 @@ if [ $QT4_IM = 'N' ]; then
   mv gcin.spec gcin.spec.tmp
   grep -v qt4/plugins/inputmethods gcin.spec.tmp > gcin.spec
 else
-  QT4_MOC="qtchooser -run-tool=moc -qt=4"
+  for i in /usr/share/qt4/bin/moc /usr/lib/qt4/bin/moc /usr/lib64/qt4/bin/moc /usr/bin/moc
+  do
+    [ ! -x $i ] && continue
+    QT4_MOC=$i
+    echo "QT4_MOC=$QT4_MOC"
+    break
+  done
 fi
 
 
@@ -325,7 +336,22 @@ if [ $QT5_IM = 'N' ]; then
   mv gcin.spec gcin.spec.tmp
   grep -v qt5/plugins/inputmethods gcin.spec.tmp > gcin.spec
 else
-  QT5_MOC="qtchooser -run-tool=moc -qt=5"
+  cd qt5-im
+  pkg-config --modversion Qt5Core | grep 5.5.1 > /dev/null 2> /dev/null
+  if [ $? = 0 ]; then
+    echo "You have Qt 5.5.1"
+    sed -e "s/FactoryInterface/FactoryInterface.5.1/" < gcin-qt5.h.in > gcin-qt5.h
+  else
+    cp gcin-qt5.h.in gcin-qt5.h
+  fi
+  cd ..
+  for i in /usr/share/qt5/bin/moc /usr/lib/qt5/bin/moc /usr/lib/x86_64-linux-gnu/qt5/bin/moc /usr/lib/i386-linux-gnu/qt5/bin/moc /usr/lib64/qt5/bin/moc /usr/bin/moc
+  do
+    [ ! -x $i ] && continue
+    QT5_MOC=$i
+    echo "QT5_MOC=$QT5_MOC"
+    break
+  done
 fi
 
 
@@ -356,9 +382,7 @@ echo "datadir_r=$datadir" >> config.mak
 echo "libdir=\$(DESTDIR)$libdir" >> config.mak
 echo "gcinlibdir=\$(DESTDIR)$gcinlibdir" >> config.mak
 echo "includedir=\$(DESTDIR)$includedir" >> config.mak
-echo "CFLAGS=$CFLAGS $CPPFLAGS" >> config.mak
-echo "CXXFLAGS=$CXXFLAGS $CPPFLAGS" >> config.mak
-echo "LDFLAGS=$LDFLAGS -Wl,--as-needed $GTKLDFLAGS -lX11 -ldl -lm" >> config.mak
+echo "LDFLAGS=-Wl,--as-needed $GTKLDFLAGS -lX11 -ldl -lm" >> config.mak
 echo "GCIN_VERSION=$GCIN_VERSION" >> config.mak
 echo "GCIN_TABLE_DIR=\$(datadir_r)/gcin/table" >> config.mak
 echo "GCIN_OGG_DIR=\$(datadir_r)/gcin/ogg" >> config.mak
