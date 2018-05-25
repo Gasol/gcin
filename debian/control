@@ -1,7 +1,7 @@
 Source: gcin
 Section: utils
 Priority: optional
-Maintainer: IME Packaging Team <pkg-ime-devel@lists.alioth.debian.org>
+Maintainer: Debian Input Method Team <debian-input-method@lists.debian.org>
 Uploaders: Yao Wei (魏銘廷) <mwei@lxde.org>,
            ChangZhuo Chen (陳昌倬) <czchen@debian.org>,
            Shih-Yuan Lee (FourDollars) <fourdollars@gmail.com>,
