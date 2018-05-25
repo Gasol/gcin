@@ -143,7 +143,7 @@ static struct {
     image = gtk_image_new_from_file (gcin_png);
 #endif
 
-    label_version = gtk_label_new ("version " GCIN_VERSION);
+    label_version = gtk_label_new ("version " GCIN_VERSION "  " __DATE__);
 
     gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 3);
     gtk_box_pack_start (GTK_BOX (hbox), label_version, FALSE, FALSE, 3);

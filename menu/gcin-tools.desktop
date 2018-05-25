@@ -13,4 +13,3 @@ Terminal=false
 Type=Application
 StartupNotify=true
 Categories=Settings;
-Keywords=input;ime;gcin;keyboard;
