@@ -7,7 +7,5 @@
 0007-Remove-dayi3-to-compliant-with-DFSG.patch
 0008-Use-qtchooser-to-find-moc.patch
 0009-Remove-__DATE__-for-reproducible-build.patch
-0010-Remove-Qt5PlatformSupport.patch
 0011-Reproducible-build.patch
 0012-Use-QPlatformInputContextFactoryInterface_iid.patch
-0013-fix-build-with-Qt-5.9.patch

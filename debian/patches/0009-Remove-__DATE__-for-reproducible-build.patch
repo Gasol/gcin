@@ -1,5 +1,4 @@
-From c371845a178bc71d624a77c0c15fdff657cc78af Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?ChangZhuo=20Chen=20=28=E9=99=B3=E6=98=8C=E5=80=AC=29?=
+From: =?utf-8?b?IkNoYW5nWmh1byBDaGVuICjpmbPmmIzlgKwpIg==?=
  <czchen@debian.org>
 Date: Wed, 15 Jun 2016 19:06:33 +0800
 Subject: Remove __DATE__ for reproducible build

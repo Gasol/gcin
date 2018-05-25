@@ -1,6 +1,4 @@
-From b60f23c16373173511453eda0a012bcafda22f68 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Yao=20Wei=20=28=E9=AD=8F=E9=8A=98=E5=BB=B7=29?=
- <mwei@lxde.org>
+From: =?utf-8?b?IllhbyBXZWkgKOmtj+mKmOW7tyki?= <mwei@lxde.org>
 Date: Wed, 15 Jun 2016 19:06:24 +0800
 Subject: Pass CFLAGS and LDFLAGS to compiler and linker
 
@@ -19,9 +17,9 @@ Last-Update: 2013-08-02
  im-client/Makefile  | 2 +-
  qt-im/Makefile      | 2 +-
  qt4-im/Makefile     | 4 ++--
- qt5-im/Makefile     | 8 +++-----
+ qt5-im/Makefile     | 4 ++--
  suffixes-rule       | 3 ++-
- 10 files changed, 17 insertions(+), 16 deletions(-)
+ 10 files changed, 16 insertions(+), 13 deletions(-)
 
 diff --git a/IMdkit/lib/Makefile b/IMdkit/lib/Makefile
 index f663b6b..7bcfcda 100644
@@ -37,7 +35,7 @@ index f663b6b..7bcfcda 100644
  
  
 diff --git a/configure b/configure
-index 222cf2f..930835d 100755
+index 6efd386..d1084b6 100755
 --- a/configure
 +++ b/configure
 @@ -38,7 +38,7 @@ if [ $? = 0 ]; then
@@ -49,7 +47,7 @@ index 222cf2f..930835d 100755
  MAC_OS=0
  uname | grep Darwin > /dev/null 2> /dev/null
  if [ $? = 0 ]; then
-@@ -382,7 +382,9 @@ echo "datadir_r=$datadir" >> config.mak
+@@ -388,7 +388,9 @@ echo "datadir_r=$datadir" >> config.mak
  echo "libdir=\$(DESTDIR)$libdir" >> config.mak
  echo "gcinlibdir=\$(DESTDIR)$gcinlibdir" >> config.mak
  echo "includedir=\$(DESTDIR)$includedir" >> config.mak
@@ -144,24 +142,19 @@ index 742407b..c4c7f92 100644
  
  .cpp.E:
 diff --git a/qt5-im/Makefile b/qt5-im/Makefile
-index 84a784f..60c140f 100644
+index d11703d..4993086 100644
 --- a/qt5-im/Makefile
 +++ b/qt5-im/Makefile
-@@ -5,14 +5,12 @@ IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
- 
- INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui Qt5PlatformSupport QtDBus --cflags`
- MODVERSION=`pkg-config --modversion Qt5Gui`
--QTINC=`pkg-config --variable=includedir Qt5Gui`
--INCS+=-I$(QTINC)/QtGui/$(MODVERSION)/QtGui
--#INCS+=-I/usr/include/i386-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui
-+INCS+=-I`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)/QtGui
+@@ -10,10 +10,10 @@ INCS+=-I`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)
+ INCS+=-I`pkg-config --variable=includedir Qt5Gui`/QtGui/$(MODVERSION)/QtGui
+ #INCS+=-I/usr/include/i386-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtGui/$(MODVERSION)/QtGui
  
 -CXXFLAGS=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT5 -DQT_SHARED -DQT_IMMODULE -DPIC -DDEBUG="0$(GCIN_DEBUG)"
 +CXXFLAGS+=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT5 -DQT_SHARED -DQT_IMMODULE -DPIC -DDEBUG="0$(GCIN_DEBUG)"
  OBJS= moc_gcin-qt5.o gcin-qt5.o gcin-imcontext-qt5.o moc_qgcinplatforminputcontext.o
  .SUFFIXES:	.c .cpp .a .so .E .h
--LDFLAGS=-L../im-client -lgcin-im-client `pkg-config Qt5Core Qt5Gui Qt5PlatformSupport --libs`
-+LDFLAGS+=-L../im-client -lgcin-im-client `pkg-config Qt5Core Qt5Gui Qt5PlatformSupport --libs`
+-LDFLAGS=-L../im-client -lgcin-im-client `pkg-config Qt5Core Qt5Gui --libs`
++LDFLAGS+=-L../im-client -lgcin-im-client `pkg-config Qt5Core Qt5Gui --libs`
  
  GCIN_QT5 = libgcinplatforminputcontextplugin.so
  

@@ -1,5 +1,4 @@
-From 9bf6e9b4159889a235d1071066b3d7fc1935f9b0 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?ChangZhuo=20Chen=20=28=E9=99=B3=E6=98=8C=E5=80=AC=29?=
+From: =?utf-8?b?IkNoYW5nWmh1byBDaGVuICjpmbPmmIzlgKwpIg==?=
  <czchen@debian.org>
 Date: Thu, 30 Jun 2016 00:09:02 +0800
 Subject: Reproducible build
@@ -9,10 +8,10 @@ Subject: Reproducible build
  1 file changed, 2 insertions(+)
 
 diff --git a/pin-juyin.cpp b/pin-juyin.cpp
-index 50fc654..719c88b 100644
+index e385d3a..385fdf5 100644
 --- a/pin-juyin.cpp
 +++ b/pin-juyin.cpp
-@@ -19,6 +19,8 @@ int main()
+@@ -20,6 +20,8 @@ int main()
    if ((fp=fopen(fnamein, "r"))==NULL)
      p_err("cannot open %s", fnamein);
  
