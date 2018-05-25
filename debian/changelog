@@ -1,10 +1,11 @@
-gcin (2.8.6+dfsg1-1) UNRELEASED; urgency=medium
+gcin (2.8.6+dfsg2-1) UNRELEASED; urgency=medium
 
   * New upstream release.
   * Update Vcs-* fields to salsa.
   * Use new team mailing list (Closes: #899847).
+  * Update d/watch link to https.
 
- -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Fri, 25 May 2018 10:26:51 +0800
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Fri, 25 May 2018 10:41:47 +0800
 
 gcin (2.8.5+dfsg1-4) unstable; urgency=medium
 
