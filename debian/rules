@@ -13,7 +13,7 @@ GTK2_IMMODULES := $(shell pkg-config --variable=libdir gtk+-2.0)/libgtk2.0-0/gtk
 GTK3_IMMODULES := $(shell pkg-config --variable=libdir gtk+-3.0)/libgtk-3-0/gtk-query-immodules-3.0
 
 %:
-	dh $@ --no-parallel
+	dh $@ --no-parallel --no-dwz-multifile
 
 override_dh_auto_configure:
 	dh_auto_configure -- --gcinlibdir=/usr/lib/$(DEB_HOST_MULTIARCH)/gcin
