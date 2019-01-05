@@ -1,3 +1,9 @@
+gcin (2.8.8+dfsg1-1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Sat, 05 Jan 2019 23:12:51 +0800
+
 gcin (2.8.6+dfsg2-1) unstable; urgency=medium
 
   * New upstream release.
