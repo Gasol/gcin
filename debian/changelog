@@ -1,8 +1,13 @@
-gcin (2.8.8+dfsg1-1) UNRELEASED; urgency=medium
+gcin (2.8.8+dfsg1-1) unstable; urgency=medium
 
   * New upstream release.
+  * Bump Standards-Version to 4.3.0.
+  * Bump compat to 12.
+    * Use dh_missing for exclude files.
+    * Use --no-dwz-multifile to avoid dh_dwz fails.
+  * Use libcurl4-openssl-dev as first alternative instead of libcurl-dev
 
- -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Sat, 05 Jan 2019 23:12:51 +0800
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Sun, 06 Jan 2019 00:00:17 +0800
 
 gcin (2.8.6+dfsg2-1) unstable; urgency=medium
 
