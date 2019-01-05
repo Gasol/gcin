@@ -22,14 +22,14 @@ index 4993086..c06efae 100644
  moc_qgcinplatforminputcontext.cpp:	qgcinplatforminputcontext.h
  	$(QT5_MOC) $< -o $@
 diff --git a/qt5-im/gcin-qt5.h b/qt5-im/gcin-qt5.h
-index 63aacc0..a72ea76 100644
+index 0f958af..a72ea76 100644
 --- a/qt5-im/gcin-qt5.h
 +++ b/qt5-im/gcin-qt5.h
 @@ -9,7 +9,7 @@ class QGcinPlatformInputContextPlugin : public QPlatformInputContextPlugin
  {
      Q_OBJECT
  public:
--    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QPlatformInputContextFactoryInterface" FILE "gcin.json")
+-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QPlatformInputContextFactoryInterface.5.1" FILE "gcin.json")
 +    Q_PLUGIN_METADATA(IID QPlatformInputContextFactoryInterface_iid FILE "gcin.json")
      QStringList keys() const;
      QGcinPlatformInputContext *create(const QString& system, const QStringList& paramList);
