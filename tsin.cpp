@@ -574,7 +574,7 @@ void save_phrase(int save_frm, int len)
 }
 
 
-static void set_fixed(int idx, int len)
+static void set_fixed_(int idx, int len, gboolean str_only)
 {
   dbg("-------------------------------- set_fixed %d %d\n", idx, len);
   int i;
@@ -582,7 +582,14 @@ static void set_fixed(int idx, int len)
 //    tss.chpho[i].flag |= FLAG_CHPHO_FIXED;
     tss.chpho[i].flag |= FLAG_CHPHO_FIXED|FLAG_CHPHO_PINYIN_TONE;
     tss.chpho[i].flag &= ~FLAG_CHPHO_PHRASE_USER_HEAD;
+    if (str_only)
+		tss.chpho[i].flag |= FLAG_CHPHO_STR_ONLY;
   }
+}
+
+static void set_fixed(int idx, int len)
+{
+	set_fixed_(idx, len, FALSE);
 }
 
 #define PH_SHIFT_N (tsin_buffer_size - 1)
@@ -708,7 +715,7 @@ char *get_chpho_pinyin_set(char *set_arr)
     return NULL;
   int i;
   for(i=0; i < tss.c_len; i++) {
-    if (tss.chpho[i].flag & FLAG_CHPHO_PINYIN_TONE)
+    if ((tss.chpho[i].flag & FLAG_CHPHO_PINYIN_TONE) || !(tss.chpho[i].cha[0]&0x80))
       set_arr[i]=TRUE;
     else
       set_arr[i]=FALSE;
@@ -841,7 +848,7 @@ int get_best_idx_pho_idx(int i, phokey_t key, char need_mask) {
   int mi=-1;
 //  dbg("get_best_idx_pho_idx %d key:%x\n", need_mask, key);
 //  prph(key); dbg("\n");
-
+  int oi=i;
   while (i<idxnum_pho) {
     ttt=idx_pho[i].key;
 //    prph(ttt);
@@ -868,6 +875,36 @@ int get_best_idx_pho_idx(int i, phokey_t key, char need_mask) {
       break;
     i++;
   }
+
+  if (mi < 0) {
+	  i=oi;
+	  while (i<idxnum_pho) {
+		ttt=idx_pho[i].key;
+	//    prph(ttt);
+		if (need_mask) {
+	//      ttt &= ~7;
+		  char zero=0;
+		  mask_pho_ref1(&ttt, &key);
+	//    prph(ttt);
+	//      dbg("\n");
+		}
+
+		int pidx = idx_pho[i].start;
+		int count=pho_idx_use_count(pidx);
+		if (idx_pho[i].key==key)
+			count+=0x1fffffff;
+		char *s = pho_idx_str(pidx);
+	//	dbg(" s '%s' %x\n", s, ttt);
+		if (ttt==key && mcount<count) {
+			mcount = count;
+			mi = i;
+		}
+		if (ttt>key)
+		  break;
+		i++;
+	  }	  
+  }
+
 
   dbg("mi %d\n", mi);
 
@@ -1202,7 +1239,7 @@ void set_chpho_ch(CHPHO *pchpho, char *utf8, int len, gboolean is_pho_phrase)
 }
 
 
-gboolean add_to_tsin_buf(char *str, phokey_t *pho, int len)
+gboolean add_to_tsin_buf(char *str, phokey_t *pho, int len, gboolean str_only)
 {
     int i;
 #if WIN32
@@ -1221,7 +1258,7 @@ gboolean add_to_tsin_buf(char *str, phokey_t *pho, int len)
 
     ch_pho_cpy(&tss.chpho[tss.c_idx], str, pho, len);
 
-    if (tss.c_idx == tss.c_len)
+//    if (tss.c_idx == tss.c_len)
       tss.c_idx +=len;
 
     tss.c_len+=len;
@@ -1231,7 +1268,7 @@ gboolean add_to_tsin_buf(char *str, phokey_t *pho, int len)
 
     prbuf();
 
-    set_fixed(tss.c_idx, len);
+    set_fixed_(tss.c_idx, len, str_only);
 #if 1
     for(i=1;i < len; i++) {
       tss.chpho[tss.c_idx+i].psta= tss.c_idx;
@@ -1343,27 +1380,22 @@ void add_to_tsin_buf_str(char *str)
   int N = 0;
 
   dbg("add_to_tsin_buf_str %s\n", str);
+  phokey_t pho[MAX_PHRASE_LEN];
+  bzero(pho, sizeof(pho));
 
   while (*pp) {
     int u8sz = utf8_sz(pp);
+    phokey_t tt[32];
+    int phoN = utf8_pho_keys(pp, tt);
+    pho[N]=phoN==0?0x1:tt[0];	
     N++;
     pp += u8sz;
 
     if (pp >= endp) // bad utf8 string
       break;
   }
-
 //  dbg("add_to_tsin_buf_str %s %d\n",str, N);
-
-  phokey_t pho[MAX_PHRASE_LEN];
-#if 0
-  bzero(pho, sizeof(pho));
-#else
-  int i;
-  for(i=0;i<N;i++)
-	  pho[i]=0x1; //˙
-#endif
-  add_to_tsin_buf(str, pho, N);
+  add_to_tsin_buf(str, pho, N, TRUE);
 }
 
 void add_to_tsin_buf_ch(char c)
@@ -1490,7 +1522,7 @@ static gboolean pre_punctuation_sub(KeySym xkey, char shift_punc[], char *chars[
       phokey_t keys[64];
       keys[0]=0;
       utf8_pho_keys(pchar, keys);
-	  add_to_tsin_buf(pchar, &keys[0], 1);
+	  add_to_tsin_buf(pchar, &keys[0], 1, TRUE);
 	  if (gcin_punc_auto_send && tsin_cursor_end())
 		flush_tsin_buffer();
     }

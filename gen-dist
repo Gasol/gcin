@@ -23,14 +23,4 @@ XZ_OPT=-7e tar -cvJ --owner=0 --group=0 -f $GCIN_VERSION.tar.xz $GCIN_VERSION
 
 cd gcin; ./configure
 
-cd ~/rpm/SOURCES
-
-if [ ! -f $GCIN_VERSION.tar.xz ]; then
-  ln -sf ~/$GCIN_VERSION.tar.xz .
-fi
-
 cd
-
-export GCIN_USE_XIM=Y
-
-#rpm -bb gcin.spec

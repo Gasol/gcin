@@ -202,7 +202,7 @@ void load_setttings()
   get_gcin_conf_str(GCIN_WIN_COLOR_BG, &gcin_win_color_bg, "#005BFF");
   gcin_win_color_use = get_gcin_conf_int(GCIN_WIN_COLOR_USE, 0);
   gcin_bell_off = get_gcin_conf_int(GCIN_BELL_OFF, 0);
-  gcin_buffer_select_char_auto_right = get_gcin_conf_int(GCIN_BUFFER_SELECT_CHAR_AUTO_RIGHT, 0);
+  gcin_buffer_select_char_auto_right = get_gcin_conf_int(GCIN_BUFFER_SELECT_CHAR_AUTO_RIGHT, 1);
 
 
 #if USE_GCB
@@ -240,7 +240,7 @@ void load_setttings()
   else
 #endif
   {
-    char *kbm_str = is_chs?"pinyin "N1234" 1 1":"zo "N1234" 1 1";
+    char *kbm_str = is_chs?"pinyin " N1234 " 1 1":"zo " N1234 " 1 1";
     get_gcin_conf_fstr(PHONETIC_KEYBOARD, phokbm, kbm_str);
   }
 

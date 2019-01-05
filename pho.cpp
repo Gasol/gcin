@@ -74,7 +74,6 @@ void key_typ_pho(phokey_t phokey, u_char rtyp_pho[])
   rtyp_pho[0] = phokey;
 }
 
-
 void mask_key_typ_pho(phokey_t *key)
 {
   if (poo.typ_pho[0] == BACK_QUOTE_NO)
@@ -85,7 +84,7 @@ void mask_key_typ_pho(phokey_t *key)
   if (!poo.typ_pho[3]) *key &= ~(7);
 }
 
-#define TKBM 0
+#define TKBM 1
 #define MIN_M_PHO 5
 
 // skip table for hsu
@@ -100,11 +99,21 @@ phokey_t skip[]={
 	0x1600,  // ㄏ
 	0xe00,  // ㄋ
 	0x1400, // ㄎ
-
+	0x1c00, // ㄒ
+	0x1c01, // ㄒ1 pho-huge
+	0x1c02, // ㄒ2 pho-huge
+	0x1c03, // ㄒ3 pho-huge
+	0x1c04, // ㄒ4 pho-huge
 	0 // stop
 };
 
+#define HUGE_PHO 1
+
+#if HUGE_PHO
+static void find_match_phos_(u_char mtyp_pho[4],  int *mcount, int newkey, gboolean mask_tone_only)
+#else
 static void find_match_phos(u_char mtyp_pho[4],  int *mcount, int newkey)
+#endif
 {
       int vv;
       phokey_t key = pho2key(poo.typ_pho);
@@ -122,7 +131,7 @@ static void find_match_phos(u_char mtyp_pho[4],  int *mcount, int newkey)
       for (vv = hash_pho[poo.typ_pho[0]]; vv < hash_pho[poo.typ_pho[0]+1]; vv++) {
         phokey_t ttt=idx_pho[vv].key;
 
-//		prph(ttt);  dbg(" 0x%x\n", ttt);
+		prph(ttt);  dbg(" 0x%x\n", ttt);
 
 		int j;
 		for(j=0; skip[j]; j++)
@@ -132,8 +141,14 @@ static void find_match_phos(u_char mtyp_pho[4],  int *mcount, int newkey)
 			continue;
 
 
-        if (newkey!=' ' && !poo.typ_pho[3])
-          mask_key_typ_pho(&ttt);
+        if (newkey!=' ' && !poo.typ_pho[3]) {
+#if HUGE_PHO
+		  if (mask_tone_only)
+			ttt &= ~(7);
+		  else
+#endif
+            mask_key_typ_pho(&ttt);
+        }
 
         if (ttt < key)
           continue;
@@ -141,7 +156,7 @@ static void find_match_phos(u_char mtyp_pho[4],  int *mcount, int newkey)
         if (ttt > key)
           break;
 
-//		dbg(" ");  prph(ttt); dbg(" 0x%x\n", ttt);
+		dbg(" ");  prph(ttt); dbg(" 0x%x\n", ttt);
 
         int count = 0;
 
@@ -170,8 +185,18 @@ static void find_match_phos(u_char mtyp_pho[4],  int *mcount, int newkey)
         }
       }
 
-//      dbg("ret %d\n", *mcount);
+      dbg("ret %d\n", *mcount);
 }
+
+#if HUGE_PHO
+static void find_match_phos(u_char mtyp_pho[4],  int *mcount, int newkey) {
+	find_match_phos_(mtyp_pho, mcount, newkey, TRUE);
+	*mcount = *mcount*100;
+	if (*mcount==0) {
+		find_match_phos_(mtyp_pho, mcount, newkey, FALSE);
+	}
+}
+#endif
 
 gboolean inph_typ_pho_pinyin(int newkey);
 
@@ -232,7 +257,7 @@ int inph_typ_pho_no_tone(KeySym newkey)
 		poo.typ_pho[typ] = num;
 		return PHO_STATUS_OK_NEW | PHO_STATUS_TONE;
 	  }
-	  	 
+
 #if 1
       if (typ==1) {
 		if (poo.typ_pho[0]) {
@@ -243,10 +268,10 @@ int inph_typ_pho_no_tone(KeySym newkey)
 				poo.typ_pho[1]=0;
 				insert=-1;
 				break;
-			}			
+			}
 		}
-	  }	  
-#endif	  
+	  }
+#endif
 
 #if 0
       if (typ==2) {
@@ -258,18 +283,18 @@ int inph_typ_pho_no_tone(KeySym newkey)
 				poo.typ_pho[2]=0;
 				insert=-1;
 				break;
-			}			
+			}
 		}
-	  }	  
-#endif	  
+	  }
+#endif
 
-	  
+
 #if 0
       if (typ==2) {
 		poo.typ_pho[typ] = num;
 		return PHO_STATUS_OK_NEW;
-	  }	  
-#endif	  
+	  }
+#endif
       break;
     }
   }

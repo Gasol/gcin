@@ -173,7 +173,7 @@ empty:
     if (plen > match_len || (pho_incr && plen==match_len)) {
       continue;
     }
-    
+
     if (is_pho) {
 #if 0
       mask_tone(mtk, plen, t_pinyin_set);
@@ -248,7 +248,7 @@ empty:
 
     if (maxlen < match_len)
       maxlen = match_len;
-    
+
 	if (usecount>0) {
 		bzero(sel[selN].phkey, sizeof(sel[selN].phkey));
 		memcpy(sel[selN].phkey, mtk_src, match_len*th->ph_key_sz);
@@ -256,13 +256,13 @@ empty:
 		sel[selN].usecount = usecount;
 		utf8cpyN(sel[selN].str, (char *)mtch, match_len);
 		selN++;
-	} else {		
+	} else {
 		if (sel_nuN < selNMax) {
 		  bzero(sel_nu[sel_nuN].phkey, sizeof(sel_nu[sel_nuN].phkey));
 		  memcpy(sel_nu[sel_nuN].phkey, mtk_src, match_len*th->ph_key_sz);
 		  sel_nu[sel_nuN].len = match_len;
 		  sel_nu[sel_nuN].usecount = usecount;
-		  utf8cpyN(sel_nu[sel_nuN].str, (char *)mtch, match_len);		  
+		  utf8cpyN(sel_nu[sel_nuN].str, (char *)mtch, match_len);
 		  sel_nuN++;
 		}
 	}
@@ -274,7 +274,7 @@ empty:
 	  int d = selNMax - selN;
 	  if (d > sel_nuN)
 	    d = sel_nuN;
-	  for(int i=0;i<d;i++) 
+	  for(int i=0;i<d;i++)
 	    sel[selN++]=sel_nu[i];
   }
 
@@ -336,22 +336,22 @@ void tsin_scan_pre_select(gboolean b_incr)
 
   init_pre_sel();
 
-  int Maxlen = tss.c_len;
+  int Maxlen = tss.c_idx;
   if (Maxlen > MAX_PHRASE_LEN)
     Maxlen = MAX_PHRASE_LEN;
 
   int len, selN, max_len=-1, max_selN=-1;
   for(len=1; len <= Maxlen; len++) {
-    int idx = tss.c_len - len;
-    if (tss.chpho[idx].flag & FLAG_CHPHO_PHRASE_TAIL) {
+    int idx = tss.c_idx - len;
+    if ((tss.chpho[idx].flag & FLAG_CHPHO_PHRASE_TAIL) || !(tss.chpho[idx].cha[0]&0x80)) {
 //      dbg("phrase tail %d\n", idx);
       break;
     }
-#if 0    
+#if 0
     int mlen = scanphr_e(&tsin_hand, FALSE, tss.c_len - len, len, b_incr, &selN);
 #else
 	int mlen = scanphr_e(&tsin_hand, FALSE, tss.c_idx - len, len, b_incr, &selN);
-#endif    
+#endif
 //	dbg("mlen %d len:%d\n", mlen, len);
 
     if (mlen) {
@@ -371,7 +371,7 @@ void tsin_scan_pre_select(gboolean b_incr)
   scanphr_e(&tsin_hand, FALSE, tss.c_len - max_len, max_len, b_incr, &selN);
 #else
   scanphr_e(&tsin_hand, FALSE, tss.c_idx - max_len, max_len, b_incr, &selN);
-#endif  
+#endif
 
 //  dbg("selN:%d %d\n", selN, tss.pre_selN);
 
@@ -380,7 +380,7 @@ void tsin_scan_pre_select(gboolean b_incr)
   tss.ph_sta = tss.c_len - max_len;
 #else
   tss.ph_sta = tss.c_idx - max_len;
-#endif  
+#endif
 
   if (selN==1 && tss.pre_sel[0].len==max_len) {
     char out[MAX_PHRASE_LEN * CH_SZ + 1];
@@ -680,7 +680,7 @@ void tsin_en_scan_pre_select()
 		int i;
 		for(i=tss.c_len;i>0;i--) {
 			char c = tss.chpho[i-1].cha[0];
-			if (!((c>='A' && c<='Z') || (c>='a' && c<='z')))
+			if (!((c>='A' && c<='Z') || (c>='a' && c<='z') || c=='@'))
 				break;
 		}
 

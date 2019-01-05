@@ -9,7 +9,7 @@ class QGcinPlatformInputContextPlugin : public QPlatformInputContextPlugin
 {
     Q_OBJECT
 public:
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QPlatformInputContextFactoryInterface" FILE "gcin.json")
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QPlatformInputContextFactoryInterface.5.1" FILE "gcin.json")
     QStringList keys() const;
     QGcinPlatformInputContext *create(const QString& system, const QStringList& paramList);
 };

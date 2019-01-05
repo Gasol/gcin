@@ -53,7 +53,7 @@ typedef struct {
 
 static NEAR_ENTRY *near_entries;
 static int near_entriesN;
-gboolean add_to_tsin_buf(char *str, phokey_t *pho, int len);
+gboolean add_to_tsin_buf(char *str, phokey_t *pho, int len, gboolean str_only);
 void tsin_remove_last();
 
 static void cb_sel (GtkWidget *button, gpointer user_data)
@@ -65,7 +65,7 @@ static void cb_sel (GtkWidget *button, gpointer user_data)
 
   tsin_remove_last();
   char_play(tt);
-  add_to_tsin_buf(tt, &near_entry->pk, 1);
+  add_to_tsin_buf(tt, &near_entry->pk, 1, FALSE);
 
   close_win_pho_near();
 }

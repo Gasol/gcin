@@ -157,19 +157,19 @@ void init_gtab(int inmdno)
   init_seltab(&seltab);
 
 //  current_CS->b_half_full_char = FALSE;
-  if (!inmd[inmdno].filename || !strcmp(inmd[inmdno].filename,"-")) {
+  if (!inp->filename || !strcmp(inp->filename,"-")) {
 //    dbg("filename is empty\n");
     return;
   }
 
   time_t mtime;
 
-  if (!(mtime = find_tab_file(inmd[inmdno].filename, ttt)))
+  if (!(mtime = find_tab_file(inp->filename, ttt)))
     return;
 
 
   char append[64], append_user[128];
-  strcat(strcpy(append, inmd[inmdno].filename), ".append");
+  strcat(strcpy(append, inp->filename), ".append");
   get_gcin_user_fname(append, append_user);
   time_t mtime_append = file_mtime(append_user);
 

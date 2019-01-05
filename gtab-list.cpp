@@ -47,6 +47,7 @@ void free_gtab()
     free(inp->keycol); inp->keycol = NULL;
     free(inp->keyname); inp->keyname = NULL;
     free(inp->idx1); inp->idx1 = NULL;
+    free(inp->keymap); inp->keymap = NULL;
 
 
     free(inp->filename); inp->filename=NULL;
