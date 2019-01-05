@@ -20,6 +20,7 @@ enum {
   FLAG_CHPHO_GTAB_BUF_EN_NO_SPC=128,
   FLAG_CHPHO_PHRASE_TAIL=0x100,
   FLAG_CHPHO_EN_PHRASE=0x200,
+  FLAG_CHPHO_STR_ONLY=0x400,
 };
 
 void extract_pho(gboolean is_en, int chpho_idx, int plen, phokey_t *pho);

@@ -28,7 +28,7 @@ static char *c_pinyin_set;
 
 int tsin_parse_recur(int start, TSIN_PARSE *out, short *r_match_phr_N, short *r_no_match_ch_N)
 {
-//  dbg("tsin_parse_recur start:%d tsin_parse_len:%d\n", start, tsin_parse_len);
+  dbg("tsin_parse_recur start:%d tsin_parse_len:%d\n", start, tsin_parse_len);
   int plen;
   double bestscore = -1;
   int bestusecount = 0;
@@ -62,7 +62,7 @@ int tsin_parse_recur(int start, TSIN_PARSE *out, short *r_match_phr_N, short *r_
   for(; start + plen <= tsin_parse_len && plen <= MAX_PHRASE_LEN; plen++) {
 
 #if DBG
-    dbg("---- aa st:%d hh plen:%d ", start, plen);utf8_putchar(tss.chpho[start].ch); dbg("\n");
+    dbg("---- aa st:%d hh plen:%d ", start, plen); dbg("\n");
 #endif
     if (plen > 1) {
       if (tsin_hand.tsin_is_gtab) {
@@ -87,9 +87,9 @@ int tsin_parse_recur(int start, TSIN_PARSE *out, short *r_match_phr_N, short *r_
     short match_phr_N=0, no_match_ch_N = plen;
     void *ppp = pp64;
 
-	if ((tsin_hand.tsin_is_gtab && (!(gbuf[start].ch[0] & 0x80)	)) ||  (!tsin_hand.tsin_is_gtab && ( !(tss.chpho[start].ch[0] & 0x80)	 ))) {
+	if ((tsin_hand.tsin_is_gtab && (!(gbuf[start].ch[0] & 0x80)	)) ||  (!tsin_hand.tsin_is_gtab && ( !(tss.chpho[start].ch[0] & 0x80) || (tss.chpho[start].flag & FLAG_CHPHO_STR_ONLY)))) {
 		 if ((tsin_hand.tsin_is_gtab && (gbuf[start+plen-1].ch[0] & 0x80) ) ||  (!tsin_hand.tsin_is_gtab && (tss.chpho[start+plen-1].ch[0] & 0x80) )) {
-//		   dbg("break\n");
+		   dbg("break\n");
 		   break;
 		 }
 		 pbest[0].len = plen;
@@ -131,7 +131,10 @@ int tsin_parse_recur(int start, TSIN_PARSE *out, short *r_match_phr_N, short *r_
         ofs += utf8cpy((char *)pbest[0].str + ofs, tss.chpho[start + i].ch);
 
 #if DBG
-    dbg("st:%d hh plen:%d ", start, plen);utf8_putchar(tss.chpho[start].ch); dbg("\n");
+    dbg("st:%d hh plen:%d ", start, plen); 
+    if (tss.chpho) 
+		utf8_putchar(tss.chpho[start].ch);
+	dbg("\n");
 #endif
 	int m_remlen = tsin_parse_len - start;
 
@@ -190,10 +193,12 @@ int tsin_parse_recur(int start, TSIN_PARSE *out, short *r_match_phr_N, short *r_
         if (check_gtab_fixed_mismatch(start, mtch, plen))
           continue;
       } else {
-		if (c_pinyin_set)
+		if (c_pinyin_set) {
+			dbg("c_pinyin_set\n");
 			mask_pho_ref((phokey_t*)pho, (phokey_t*)ppp, plen, c_pinyin_set + start);
+		}
 		if (check_fixed_mismatch(start, mtch, plen))
-			continue;
+			continue;		  			
 	  }
 
       if (usecount < 0)
@@ -296,7 +301,6 @@ next:
       no_match_ch_N += sno_match_ch_N;
       maxusecount += uc;
     }
-
 
     double score = log((double)maxusecount + MAXV) / (pow((double)match_phr_N, 2)+ 1.0E-6) / (pow((double)no_match_ch_N, 4) + 1.0E-6);
 

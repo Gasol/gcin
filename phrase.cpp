@@ -10,6 +10,8 @@
 #include "gcin.h"
 #include "gtab.h"
 #include "gtab-buf.h"
+#include "pho.h"
+#include "gst.h"
 
 struct keystruc {
   char *kname;
@@ -146,6 +148,8 @@ void free_phrase()
 extern char shift_sele[], noshi_sele[];
 #endif
 
+gboolean gtab_phrase_on_();
+
 gboolean feed_phrase(KeySym ksym, int state)
 {
   int i;
@@ -195,7 +199,7 @@ gboolean feed_phrase(KeySym ksym, int state)
       }
       else
 #endif
-      if (gtab_phrase_on()) {
+      if (gtab_phrase_on_() && ggg.gbufN) {
         insert_gbuf_nokey(str);
         if (gcin_punc_auto_send && gtab_cursor_end())
           output_gbuf();

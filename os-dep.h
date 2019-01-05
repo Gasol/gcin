@@ -22,11 +22,11 @@ extern char *gcin_script_path;
 typedef struct {
 	int x, y;
 } XPoint;
-#define snprintf sprintf_s
+// #define snprintf sprintf_s
 #define bzero ZeroMemory
-#define true 1
+// #define true 1
 #define True 1
-#define false 0
+// #define false 0
 int utf8_to_16(char *text, wchar_t *wtext, int wlen);
 int utf16_to_8(wchar_t *in, char *out, int outN);
 inline void *GDK_DISPLAY() { return NULL;}

@@ -2,6 +2,16 @@ if [ ! -f ./config.mak ]; then
   echo "Please run ./configure with your QT/GTK options"
   exit
 fi
+
+cd debian-pkg
+dpkg -s libcurl4 >& /dev/null;
+if [ $? = 0 ]; then
+	cp -a control-curl4 control
+else
+	cp -a control-curl3 control
+fi
+
+cd ..
 rm -fr debian
 #cp -a debian-pkg debian
 make -f make.debian
