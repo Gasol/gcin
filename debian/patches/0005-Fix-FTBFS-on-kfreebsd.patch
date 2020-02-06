@@ -8,7 +8,7 @@ Subject: Fix FTBFS on kfreebsd-*
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure b/configure
-index 32ca4fb..3df832f 100755
+index fde4214..f8c92df 100755
 --- a/configure
 +++ b/configure
 @@ -28,7 +28,7 @@ if [ $? = 0 ]; then

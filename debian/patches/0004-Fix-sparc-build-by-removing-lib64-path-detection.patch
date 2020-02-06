@@ -9,7 +9,7 @@ Last-Update: 2013-10-01
  1 file changed, 5 deletions(-)
 
 diff --git a/configure b/configure
-index d1084b6..32ca4fb 100755
+index fc5d148..fde4214 100755
 --- a/configure
 +++ b/configure
 @@ -205,11 +205,6 @@ fi

@@ -8,7 +8,7 @@ Subject: Use qtchooser to find moc
  1 file changed, 2 insertions(+), 29 deletions(-)
 
 diff --git a/configure b/configure
-index 3df832f..32f679b 100755
+index f8c92df..d745012 100755
 --- a/configure
 +++ b/configure
 @@ -317,13 +317,7 @@ if [ $QT4_IM = 'N' ]; then

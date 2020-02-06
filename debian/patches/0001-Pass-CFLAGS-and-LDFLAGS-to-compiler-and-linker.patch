@@ -35,7 +35,7 @@ index f663b6b..7bcfcda 100644
  
  
 diff --git a/configure b/configure
-index 6efd386..d1084b6 100755
+index c912baa..fc5d148 100755
 --- a/configure
 +++ b/configure
 @@ -38,7 +38,7 @@ if [ $? = 0 ]; then
@@ -159,7 +159,7 @@ index d11703d..4993086 100644
  GCIN_QT5 = libgcinplatforminputcontextplugin.so
  
 diff --git a/suffixes-rule b/suffixes-rule
-index ccddcab..4fdf66b 100644
+index e1b6359..d6e66a9 100644
 --- a/suffixes-rule
 +++ b/suffixes-rule
 @@ -12,7 +12,8 @@
