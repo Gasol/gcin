@@ -146,9 +146,8 @@ static gboolean read_syms()
 
       *n = 0;
 
-      psym->sym=trealloc(psym->sym, char *, psym->symN+1);
-      psym->sym[psym->symN++] = strdup(p);
-
+		psym->sym=trealloc(psym->sym, char *, psym->symN+1);
+		psym->sym[psym->symN++] = strdup(p);	 
       p = n + 1;
     }
 
@@ -376,6 +375,7 @@ gboolean win_sym_page_down()
 
 static gboolean button_scroll_event(GtkWidget *widget,GdkEventScroll *event, gpointer user_data)
 {
+  dbg("button_scroll_event\n");
   if (pagesN < 2)
     return TRUE;
 
@@ -516,6 +516,7 @@ void create_win_sym()
   if (win_sym_enabled)
     gtk_widget_show_all(gwin_sym);
 
+  gtk_widget_add_events(gwin_sym, GDK_SCROLL_MASK);
   g_signal_connect (G_OBJECT (gwin_sym), "scroll-event", G_CALLBACK (button_scroll_event), NULL);
 
 #if WIN32

@@ -106,6 +106,7 @@ static void init_chpho_i(int i)
   tss.chpho[i].ch[1]=0;
   tss.chpho[i].flag=0;
   tss.chpho[i].psta=-1;
+  tss.chpho[i].pho_parse=0;
 }
 
 void clr_tsin_cursor(int index);
@@ -141,21 +142,31 @@ void drawcursor()
   }
 }
 
-void chpho_extract(CHPHO *chph, int len, phokey_t *pho, char *ch)
+void chpho_extract_(CHPHO *chph, int len, phokey_t *pho, char *ch, gboolean pho_parse)
 {
    int i;
    int ofs=0;
    ch[0]=0;
 
    for(i=0; i < len; i++) {
-      if (pho)
-        pho[i] = chph[i].pho;
-
+      if (pho) {
+#if 1		  
+		if (pho_parse && chph[i].pho_parse)
+		  pho[i]=chph[i].pho_parse;
+		else
+#endif		
+		  pho[i] = chph[i].pho;
+//		dbg("%d] pho %x ", i, pho[i]);  prph(pho[i]); dbg("\n");
+      }
       char *str = chph[i].ch;
       strcat(ch + ofs, str);
       ofs+=strlen(str);
    }
 //   dbg("chpho_extract %s\n", ch);
+}
+
+void chpho_extract(CHPHO *chph, int len, phokey_t *pho, char *ch) {
+	chpho_extract_(chph, len, pho, ch, FALSE);
 }
 
 // in tsin db, # of phokey = # of character, use this to extract only the first characer
@@ -229,7 +240,7 @@ static void putbuf(int len)
         extract_pho(TRUE, i, phrlen, pho);
 		inc_tsin_use_count_en((char *)pho, phrlen);
 	  } else {
-        chpho_extract(&tss.chpho[i], phrlen, pho, ch);
+        chpho_extract_(&tss.chpho[i], phrlen, pho, ch, TRUE);
         inc_tsin_use_count(&tsin_hand, pho, ch, phrlen);
       }
     }
@@ -386,7 +397,7 @@ void tsin_reset_in_pho()
 
 void flush_tsin_buffer()
 {
-//  dbg("flush_tsin_buffer\n");
+  dbg("flush_tsin_buffer\n");
 #if WIN32
   if (test_mode)
     return;
@@ -582,6 +593,10 @@ static void set_fixed_(int idx, int len, gboolean str_only)
 //    tss.chpho[i].flag |= FLAG_CHPHO_FIXED;
     tss.chpho[i].flag |= FLAG_CHPHO_FIXED|FLAG_CHPHO_PINYIN_TONE;
     tss.chpho[i].flag &= ~FLAG_CHPHO_PHRASE_USER_HEAD;
+#if 1
+    if (tss.chpho[i].pho_parse)
+		tss.chpho[i].pho = tss.chpho[i].pho_parse;
+#endif		
     if (str_only)
 		tss.chpho[i].flag |= FLAG_CHPHO_STR_ONLY;
   }
@@ -1061,12 +1076,10 @@ gboolean check_fixed_mismatch(int chpho_idx, char *mtch, int plen)
 
   for(j=0; j < plen; j++) {
     int u8sz = utf8_sz(p);
-    if (!(tss.chpho[chpho_idx+j].flag & FLAG_CHPHO_FIXED))
-      continue;
-
-    if (memcmp(tss.chpho[chpho_idx+j].ch, p, u8sz))
-      return TRUE;
-
+    if ((tss.chpho[chpho_idx+j].flag & FLAG_CHPHO_FIXED)) {
+      if (memcmp(tss.chpho[chpho_idx+j].ch, p, u8sz))
+        return TRUE;
+    }
     p+= u8sz;
   }
 
@@ -1209,8 +1222,9 @@ void ch_pho_cpy(CHPHO *pchpho, char *utf8, phokey_t *phos, int len)
     utf8+=len;
     if (!phos[i])
       phos[i] = utf8_pho_key(pchpho[i].cha);
-    pchpho[i].pho = phos[i];
+    pchpho[i].pho = phos[i];    
 	pchpho[i].flag &= ~FLAG_CHPHO_PHO_PHRASE;
+	pchpho[i].pho_parse=0;
   }
 }
 

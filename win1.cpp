@@ -62,7 +62,6 @@ void create_win1()
     return;
 
   gwin1 = create_no_focus_win();
-
   g_signal_connect (G_OBJECT (gwin1), "scroll-event", G_CALLBACK (button_scroll_event_tsin), NULL);
 }
 
@@ -118,8 +117,17 @@ void create_win1_gui()
 
   frame = gtk_frame_new(NULL);
   gtk_container_add (GTK_CONTAINER(gwin1), frame);
-
+#if GTK_CHECK_VERSION(3,10,0)
+   	gtk_widget_set_vexpand (frame, TRUE);
+	gtk_widget_set_hexpand (frame, TRUE);
+	gtk_widget_set_valign (frame, GTK_ALIGN_FILL);
+  GtkWidget *vbox_top = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+   	gtk_widget_set_vexpand (vbox_top, TRUE);
+	gtk_widget_set_hexpand (vbox_top, TRUE);
+	gtk_widget_set_valign (vbox_top, GTK_ALIGN_FILL);
+#else
   GtkWidget *vbox_top = gtk_vbox_new (FALSE, 0);
+#endif  
   gtk_container_add (GTK_CONTAINER(frame), vbox_top);
 
   GtkWidget *eve_box_up = gtk_event_box_new();
@@ -154,38 +162,44 @@ void create_win1_gui()
     if (!tsin_tail_select_key)
       x*=2;
 
-    GtkWidget *align = gtk_alignment_new(0,0,0,0);
-#if GTK_CHECK_VERSION(3,10,0)
-	gtk_grid_attach(GTK_GRID(table),align, x,x+1,y,y+1);
-#else
-    gtk_table_attach_defaults(GTK_TABLE(table),align, x,x+1,y,y+1);
-#endif
     GtkWidget *event_box_pho = gtk_event_box_new();
+    
+#if GTK_CHECK_VERSION(3,10,0)	
+	gtk_grid_attach(GTK_GRID(table), event_box_pho, x, y, 1, 1);
+#else
+    GtkWidget *align = gtk_alignment_new(0,0,0,0);
+    gtk_table_attach_defaults(GTK_TABLE(table),align, x,x+1,y,y+1);
+    gtk_container_add (GTK_CONTAINER (align), event_box_pho);
+#endif
+
     gtk_event_box_set_visible_window (GTK_EVENT_BOX(event_box_pho), FALSE);
     GtkWidget *label = gtk_label_new(NULL);
     gtk_container_add (GTK_CONTAINER (event_box_pho), label);
     labels_sele[i] = label;
-    eve_sele[i] = event_box_pho;
-    gtk_container_add (GTK_CONTAINER (align), event_box_pho);
+#if GTK_CHECK_VERSION(3,10,0)
+	gtk_widget_set_halign (label, GTK_ALIGN_START);
+#endif
+    eve_sele[i] = event_box_pho;    
     gtk_label_set_justify(GTK_LABEL(labels_sele[i]),GTK_JUSTIFY_LEFT);
     set_label_font_size(labels_sele[i], gcin_font_size_tsin_presel);
     g_signal_connect(G_OBJECT(event_box_pho),"button-press-event",
                    G_CALLBACK(mouse_button_callback), GINT_TO_POINTER(i));
 
     if (!tsin_tail_select_key) {
-      GtkWidget *alignR = gtk_alignment_new(0,0,0,0);
+	  GtkWidget *event_box_phoR = gtk_event_box_new();
 #if GTK_CHECK_VERSION(3,10,0)
-      gtk_grid_attach(GTK_GRID(table), alignR, x+1,x+2,y,y+1);
+    gtk_grid_attach(GTK_GRID(table), event_box_phoR, x+1,y, 1,1);
+	gtk_widget_set_halign (event_box_phoR, GTK_ALIGN_START);
 #else
+      GtkWidget *alignR = gtk_alignment_new(0,0,0,0);
+      gtk_container_add (GTK_CONTAINER (alignR), event_box_phoR);
       gtk_table_attach_defaults(GTK_TABLE(table), alignR, x+1,x+2,y,y+1);
 #endif
-      GtkWidget *event_box_phoR = gtk_event_box_new();
       gtk_event_box_set_visible_window (GTK_EVENT_BOX(event_box_phoR), FALSE);
       GtkWidget *labelR = gtk_label_new(NULL);
       gtk_container_add (GTK_CONTAINER (event_box_phoR), labelR);
       labels_seleR[i] = labelR;
       eve_seleR[i] = event_box_phoR;
-      gtk_container_add (GTK_CONTAINER (alignR), event_box_phoR);
       gtk_label_set_justify(GTK_LABEL(labels_sele[i]),GTK_JUSTIFY_LEFT);
       set_label_font_size(labels_seleR[i], gcin_font_size_tsin_presel);
       g_signal_connect(G_OBJECT(event_box_phoR),"button-press-event",
@@ -214,7 +228,7 @@ void init_tsin_selection_win()
   create_win1_gui();
 }
 
-static void minimize_win1()
+void minimize_win1()
 {
   gtk_window_resize(GTK_WINDOW(gwin1), 1, 1);
 }

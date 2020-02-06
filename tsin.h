@@ -4,7 +4,7 @@
 typedef struct CHPHO {
   char *ch;
   char cha[CH_SZ+1];
-  phokey_t pho;
+  phokey_t pho, pho_parse;
   u_short flag;
   char psta; // phrase start index
 } CHPHO;
@@ -23,9 +23,35 @@ enum {
   FLAG_CHPHO_STR_ONLY=0x400,
 };
 
+#define MEM_PHIDX 1
+#define MEM_TSIN 1
+
+typedef struct {
+FILE *fph, *fp_phidx;
+int phcount;
+int a_phcount;
+int hashidx[TSIN_HASH_N];
+time_t modify_time;
+char *tsin_fname;
+int ph_key_sz; // bytes
+gboolean tsin_is_gtab;
+#if MEM_PHIDX
+char *mem_phidx;
+#endif
+#if MEM_TSIN
+char *mem_tsin;
+#endif
+} TSIN_HANDLE;
+
+
 void extract_pho(gboolean is_en, int chpho_idx, int plen, phokey_t *pho);
 gboolean tsin_seek(void *pho, int plen, int *r_sti, int *r_edi, char *tone_off);
 void load_tsin_entry(int idx, char *len, usecount_t *usecount, void *pho, u_char *ch);
+#if MEM_TSIN
+void load_tsin_entry0_ex(TSIN_HANDLE *th, int ofs, char *len, usecount_t *usecount, void *pho, u_char *ch);
+#else
+void load_tsin_entry0_ex(TSIN_HANDLE *th, char *len, usecount_t *usecount, void *pho, u_char *ch)
+#endif
 gboolean check_fixed_mismatch(int chpho_idx, char *mtch, int plen);
 gboolean tsin_pho_mode();
 char *get_chpho_pinyin_set(char *set_arr);
@@ -42,26 +68,14 @@ typedef struct {
 
 typedef struct PRE_SEL {
   u_int64_t phkey[MAX_PHRASE_LEN];  // gtab 4-byte is actually stored as u_int not u_int64_t
-//  int phidx;
-  char str[MAX_PHRASE_LEN*CH_SZ+1];
   int len;
   usecount_t usecount;
+  char str[MAX_PHRASE_LEN*CH_SZ+1];  
 } PRE_SEL;
 
 extern gboolean tsin_is_gtab;
 //extern int ph_key_sz;
 
-
-typedef struct {
-FILE *fph, *fp_phidx;
-int phcount;
-int a_phcount;
-int hashidx[TSIN_HASH_N];
-time_t modify_time;
-char *tsin_fname;
-int ph_key_sz; // bytes
-gboolean tsin_is_gtab;
-} TSIN_HANDLE;
 
 extern TSIN_HANDLE tsin_hand, en_hand;
 

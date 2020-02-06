@@ -43,6 +43,12 @@ void free_tsin_ex(TSIN_HANDLE *th)
   if (th->fp_phidx) {
     fclose(th->fp_phidx); th->fp_phidx=NULL;
   }
+#if MEM_TSIN
+	free(th->mem_tsin);  th->mem_tsin=NULL;
+#endif    
+#if MEM_PHIDX
+	free(th->mem_phidx);  th->mem_phidx=NULL;
+#endif  
 }
 
 gboolean load_tsin_db_ex(TSIN_HANDLE *ptsin_hand, char *infname, gboolean read_only, gboolean use_idx)
@@ -132,6 +138,25 @@ gboolean load_tsin_db_ex(TSIN_HANDLE *ptsin_hand, char *infname, gboolean read_o
   }
 
   ptsin_hand->tsin_is_gtab = is_gtab_i;
+
+#if MEM_PHIDX  
+  struct stat st;
+  int n;
+  if (fp_phidx) {
+	stat(tsidxfname, &st);
+	ptsin_hand->mem_phidx = malloc(st.st_size);
+	rewind(fp_phidx);
+	n = fread(ptsin_hand->mem_phidx, 1, st.st_size, fp_phidx);
+  }
+#endif  
+
+#if MEM_TSIN
+  stat(infname, &st);
+  ptsin_hand->mem_tsin = malloc(st.st_size + 128);  // CH_SZ problem
+  rewind(fph);
+  n = fread(ptsin_hand->mem_tsin, 1, st.st_size, fph);
+#endif  
+
   return TRUE;
 }
 
@@ -176,10 +201,11 @@ void load_en_db()
   load_en_db0(tsfname);
 }
 
+#define PHIDX_INDEX(i) (PHIDX_SKIP + i*sizeof(int))
 
 static void seek_fp_phidx(TSIN_HANDLE *ptsin_hand, int i)
 {
-  fseek(ptsin_hand->fp_phidx, PHIDX_SKIP + i*sizeof(int), SEEK_SET);
+  fseek(ptsin_hand->fp_phidx, PHIDX_INDEX(i), SEEK_SET);
 }
 
 void reload_tsin_db_ex(TSIN_HANDLE *th)
@@ -211,10 +237,14 @@ void reload_en_db()
 
 inline static int get_phidx(TSIN_HANDLE *ptsin_hand, int i)
 {
-  seek_fp_phidx(ptsin_hand, i);
+#if MEM_PHIDX	
+  int t;
+  memcpy(&t, ptsin_hand->mem_phidx + PHIDX_INDEX(i), sizeof(t));
+#else
+  seek_fp_phidx(ptsin_hand, i);  
   int t, rn;
   rn = fread(&t, sizeof(int), 1, ptsin_hand->fp_phidx);
-
+#endif  
   if (ptsin_hand->tsin_is_gtab || ptsin_hand->ph_key_sz ==1)
     t += sizeof(TSIN_GTAB_HEAD);
 
@@ -269,7 +299,7 @@ inline static int phokey_t_seq64(u_int64_t *a, u_int64_t *b, int len)
 }
 
 
-static int phokey_t_seq(TSIN_HANDLE *th, void *a, void *b, int len)
+static inline int phokey_t_seq(TSIN_HANDLE *th, void *a, void *b, int len)
 {
   if (th->ph_key_sz==1)
     return phokey_t_seq8((u_char *)a, (u_char *)b, len);
@@ -283,7 +313,7 @@ static int phokey_t_seq(TSIN_HANDLE *th, void *a, void *b, int len)
 }
 
 
-static int phseq(TSIN_HANDLE *th, u_char *a, u_char *b)
+static inline int phseq(TSIN_HANDLE *th, u_char *a, u_char *b)
 {
   u_char lena, lenb, mlen;
 
@@ -419,6 +449,9 @@ gboolean save_phrase_to_db(TSIN_HANDLE *th, void *phkeys, char *utf8str, int len
   fflush(th->fp_phidx);
 
   get_modify_time(th);
+#if MEM_PHIDX
+  reload_tsin_db_ex(th);
+#endif  
 //  dbg("ofs %d\n", get_phidx(mid));
   return TRUE;
 }
@@ -426,14 +459,22 @@ gboolean save_phrase_to_db(TSIN_HANDLE *th, void *phkeys, char *utf8str, int len
 
 #include <sys/stat.h>
 
-
+#if MEM_TSIN
+void load_tsin_entry0_ex(TSIN_HANDLE *th, int ofs, char *len, usecount_t *usecount, void *pho, u_char *ch)
+#else
 void load_tsin_entry0_ex(TSIN_HANDLE *th, char *len, usecount_t *usecount, void *pho, u_char *ch)
+#endif
 {
   *usecount = 0;
   *len = 0;
-  int rn;
+#if MEM_TSIN
+  char *p = th->mem_tsin + ofs;
+  memcpy(len, p, 1);
+  p++;
+#else  
+  int rn;  
   rn = fread(len, 1, 1, th->fph);
-
+#endif
 //  dbg("rn %d\n", rn);
 
   if (*len > MAX_PHRASE_LEN /* || *len <= 0 */) {
@@ -451,12 +492,24 @@ void load_tsin_entry0_ex(TSIN_HANDLE *th, char *len, usecount_t *usecount, void 
     *len = - (*len);
     en_has_str = TRUE;
   }
-
+#if MEM_TSIN
+  memcpy(usecount, p, sizeof(usecount_t));
+  p+=sizeof(usecount_t);
+  int tlen=(*len) * th->ph_key_sz;
+  memcpy(pho, p, tlen);
+  p+=tlen;
+#else
   rn = fread(usecount, sizeof(usecount_t), 1, th->fph); // use count
   rn = fread(pho, th->ph_key_sz, (int)(*len), th->fph);
+#endif  
   if (ch && (th->ph_key_sz!=1 || en_has_str)) {
-    rn = fread(ch, CH_SZ, (int)(*len), th->fph);
-    int tlen = utf8_tlen((char *)ch, *len);
+#if MEM_TSIN
+        int tlen = utf8_tlen(p, *len);
+        memcpy(ch, p, tlen);
+#else
+        rn = fread(ch, CH_SZ, (int)(*len), th->fph);
+        int tlen = utf8_tlen((char *)ch, *len);
+#endif        
     ch[tlen]=0;
   }
 }
@@ -476,8 +529,12 @@ void load_tsin_entry_ex(TSIN_HANDLE *th, int idx, char *len, usecount_t *usecoun
   int ph_ofs=get_phidx(th, idx);
 //  dbg("ph_ofs:%d\n", ph_ofs);
 
+#if MEM_TSIN
+  load_tsin_entry0_ex(th, ph_ofs, len, usecount, pho, ch);
+#else
   fseek(th->fph, ph_ofs , SEEK_SET);
   load_tsin_entry0_ex(th, len, usecount, pho, ch);
+#endif  
 }
 
 
@@ -551,10 +608,6 @@ gboolean tsin_seek_ex(TSIN_HANDLE *th, void *pho, int plen, int *r_sti, int *r_e
   dbg("\n");
 #endif
 
-#if 0
-  if (tone_mask)
-    mask_tone((phokey_t *)pho, plen, tone_mask);
-#endif
 
   if (th->ph_key_sz==1)
     hashi= *((u_char *)pho);
@@ -1023,14 +1076,12 @@ gboolean inc_tsin_use_count(TSIN_HANDLE *th, void *pho, char *ch, int N)
 
   reload_if_modified(th);
 
-  if (ch)
-	dbg("CH inc_dec_tsin_use_count '%s'\n", ch);
-  else {
-    dbg("EN inc_dec_tsin_use_count %d '", N);
-    utf8_putcharn((char *)pho, N);
-    dbg("'\n");
-  }
-
+  dbg("CH inc_dec_tsin_use_count '%s' N:%d\n", ch, N);
+#if 0  
+  if (th->ph_key_sz==2) {
+	  prphs(pho, N);
+  }  
+#endif
   if (!tsin_seek_ex(th, pho, N, &sti, &edi, NULL)) {
 	dbg("inc_dec_tsin_use_count not found\n");
     return FALSE;
@@ -1054,6 +1105,7 @@ gboolean inc_tsin_use_count(TSIN_HANDLE *th, void *pho, char *ch, int N)
     char stch[MAX_PHRASE_LEN * CH_SZ * 2];
 
     load_tsin_entry_ex(th, idx, &len, &usecount, phi, (u_char *)stch);
+    dbg("^^ %s %d\n", stch, usecount);
     n_usecount = usecount;
 
     if (len!=N || phokey_t_seq(th, phi, pho, N))
@@ -1070,16 +1122,19 @@ gboolean inc_tsin_use_count(TSIN_HANDLE *th, void *pho, char *ch, int N)
 #if 1
     dbg("found match %d\n", usecount);
 #endif
-    int ph_ofs=get_phidx(th, idx);
-
-    fseek(th->fph, ph_ofs + 1, SEEK_SET);
+    int ph_ofs=get_phidx(th, idx);    
+    int sofs=ph_ofs + 1;
+    fseek(th->fph, sofs, SEEK_SET);
 
     if (usecount < 0x3fffffff)
       n_usecount++;
 
-    if (n_usecount != usecount) {
+    if (n_usecount != usecount) {		
       fwrite(&n_usecount, sizeof(usecount_t), 1, th->fph); // use count
       fflush(th->fph);
+#if MEM_TSIN
+	  memcpy(th->mem_tsin + sofs, &n_usecount, sizeof(usecount_t));
+#endif      
     }
   }
 

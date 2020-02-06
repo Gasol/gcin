@@ -152,8 +152,10 @@ int pho_idx_use_count(int idx)
 
 void free_pho_mem()
 {
-  if (ch_pho)
+  if (ch_pho) {
     free(ch_pho);
+    ch_pho = NULL;
+  }  
 }
 
 typedef struct {

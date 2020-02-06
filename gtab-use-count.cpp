@@ -24,6 +24,11 @@ static void init_fp()
   }
 }
 
+void close_gtab_use_count() {
+	if (!fp_gtab_use_count)
+		return;
+	fclose(fp_gtab_use_count);
+}	
 
 void inc_gtab_use_count(char *s)
 {

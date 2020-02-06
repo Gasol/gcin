@@ -28,7 +28,7 @@ static char *c_pinyin_set;
 
 int tsin_parse_recur(int start, TSIN_PARSE *out, short *r_match_phr_N, short *r_no_match_ch_N)
 {
-  dbg("tsin_parse_recur start:%d tsin_parse_len:%d\n", start, tsin_parse_len);
+//  dbg("tsin_parse_recur start:%d tsin_parse_len:%d\n", start, tsin_parse_len);
   int plen;
   double bestscore = -1;
   int bestusecount = 0;
@@ -194,7 +194,7 @@ int tsin_parse_recur(int start, TSIN_PARSE *out, short *r_match_phr_N, short *r_
           continue;
       } else {
 		if (c_pinyin_set) {
-			dbg("c_pinyin_set\n");
+//			dbg("c_pinyin_set\n");
 			mask_pho_ref((phokey_t*)pho, (phokey_t*)ppp, plen, c_pinyin_set + start);
 		}
 		if (check_fixed_mismatch(start, mtch, plen))
@@ -211,21 +211,17 @@ int tsin_parse_recur(int start, TSIN_PARSE *out, short *r_match_phr_N, short *r_
       int i;
       if (tsin_hand.ph_key_sz==2) {
         if (c_pinyin_set) {
-#if 0
-          mask_tone(mtk, max_len, c_pinyin_set + start);
-#else
 		  mask_pho_ref((phokey_t*)pho, (phokey_t*)ppp, max_len, c_pinyin_set + start);
-#endif
         }
         for(i=0;i < max_len;i++)
           if (mtk[i]!=pp[i])
             break;
       } else if (tsin_hand.ph_key_sz==4) {
-        for(i=0;i < plen;i++)
+        for(i=0;i < max_len;i++)
           if (mtk32[i]!=pp32[i])
             break;
       } else {
-        for(i=0;i < plen;i++)
+        for(i=0;i < max_len;i++)
           if (mtk64[i]!=pp64[i])
             break;
       }
@@ -248,6 +244,11 @@ int tsin_parse_recur(int start, TSIN_PARSE *out, short *r_match_phr_N, short *r_
       maxusecount = usecount;
       utf8cpyN((char *)pbest[0].str, mtch, plen);
       pbest[0].flag |= FLAG_TSIN_PARSE_PHRASE;
+      
+      if (!tsin_hand.tsin_is_gtab) {
+		  memcpy(pbest[0].pho, pho, sizeof(phokey_t)*plen);
+//		  dbg("par "); prphs(pbest[0].pho, plen); dbg("\n");
+	  }  
 
       match_phr_N = 1;
       no_match_ch_N = 0;
@@ -348,7 +349,7 @@ char *get_first_pho(int idx);
 
 void tsin_parse()
 {
-  dbg("--------- tsin_parse()\n");
+//  dbg("--------- tsin_parse()\n");
   TSIN_PARSE out[MAX_PH_BF_EXT+1];
   bzero(out, sizeof(out));
 
@@ -371,6 +372,7 @@ void tsin_parse()
   tsin_parse_recur(0, out, &smatch_phr_N, &sno_match_ch_N);
 
   for(i=0; i < tss.c_len; i++) {
+	tss.chpho[i].pho_parse=0;
 	if (BITON(tss.chpho[i].flag, FLAG_CHPHO_EN_PHRASE)) {
 //      dbg("skip en\n", i);
 	  continue;
@@ -393,7 +395,8 @@ void tsin_parse()
     for(ofsj=j=0; j < out[i].len; j++) {
       ofsj += utf8cpy(tss.chpho[ofsi].cha, (char *)&out[i].str[ofsj]);
 //      tss.chpho[ofsi].ch = tss.chpho[ofsi].cha;
-
+	  tss.chpho[ofsi].pho_parse = out[i].pho[j];
+//	  dbg("rrr "); prph(out[i].pho[j]);
       if (out[i].flag & FLAG_TSIN_PARSE_PHRASE) {
         tss.chpho[ofsi].psta = psta;
 		tss.chpho[ofsi].flag |= FLAG_CHPHO_PHRASE_BODY;

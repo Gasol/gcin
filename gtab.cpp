@@ -992,6 +992,29 @@ void gen_kval() {
       vmaskci = cur_inmd->key64 ? vmask64_7[ggg.ci]:vmask_7[ggg.ci];
 }
 
+static void invalid_key_in() {
+	dbg("invalid_key_in\n");
+    if (gtab_invalid_key_in) {
+      if (ggg.spc_pressed) {
+        bell_err();
+        ggg.invalid_spc = TRUE;
+//        dbg("ggg.invalid_spc\n");
+      } else {
+        seltab[0][0]=0;
+        ClrSelArea();
+      }
+    } else {
+      if (gtab_dup_select_bell)
+        bell();
+
+      if (ggg.ci>0)
+        ggg.inch[--ggg.ci]=0;
+    }	
+    
+    ggg.last_idx=0;
+    DispInArea();    
+}	
+
 gboolean feedkey_gtab(KeySym key, int kbstate)
 {
   int i,j=0;
@@ -1397,7 +1420,7 @@ direct_select:
 
       ggg.last_full=0;
       ggg.spc_pressed=1;
-//      dbg("spc_pressed=1\n");
+      dbg("spc_pressed=1\n");
 
       if (has_wild) {
         ggg.wild_page=0;
@@ -1583,7 +1606,7 @@ keypad_proc:
         return 0;
       }
 
-//        dbg("ggg.spc_pressed %d %d %d is_keypad:%d\n", ggg.spc_pressed, ggg.last_full, cur_inmd->MaxPress, is_keypad);
+        dbg("ggg.spc_pressed %d %d %d is_keypad:%d\n", ggg.spc_pressed, ggg.last_full, cur_inmd->MaxPress, is_keypad);
 
 #if 1 // for dayi, testcase :  6 space keypad6
       int vv = pselkey - cur_inmd->selkey;
@@ -1626,7 +1649,7 @@ keypad_proc:
       }
 #endif
 
-//      dbg("iii %x sel1st_i:%d auto:%d\n", pselkey, ggg.sel1st_i, AUTO_SELECT_BY_PHRASE);
+      dbg("iii %x sel1st_i:%d auto:%d\n", pselkey, ggg.sel1st_i, AUTO_SELECT_BY_PHRASE);
       if (seltab[ggg.sel1st_i][0] && !ggg.wild_mode &&
            (gtab_full_space_auto_first||ggg.spc_pressed||ggg.last_full) ) {
         if (gtab_phrase_on_() && poo.same_pho_query_state != SAME_PHO_QUERY_gtab_input)
@@ -1832,14 +1855,12 @@ keypad_proc:
 
 
 #if 0
-  dbg("MaxPress:%d vmaskci:%llx kval:%llx ggg.ci:%d  !=%d  S1:%d  kval:%x\n", cur_inmd->MaxPress,
-  vmaskci, ggg.kval, ggg.ci,
-  ((CONVT2(cur_inmd, ggg.S1) & vmaskci)!=ggg.kval), ggg.S1);
+  dbg("MaxPress:%d vmaskci:%llx kval:%llx ggg.ci:%d  !=%d  S1:%d  CONV:%lx\n", cur_inmd->MaxPress,
+  vmaskci, ggg.kval, ggg.ci, ((CONVT2(cur_inmd, ggg.S1) & vmaskci)!=ggg.kval), ggg.S1, CONVT2(cur_inmd, ggg.S1));
 #endif
 
   if ((CONVT2(cur_inmd, ggg.S1) & vmaskci)!=ggg.kval || (ggg.wild_mode && ggg.defselN) ||
-                  ((/* ggg.ci==cur_inmd->MaxPress|| */ ggg.spc_pressed) && ggg.defselN &&
-      (pselkey && ( pendkey || ggg.spc_pressed)) ) ) {
+                    (ggg.spc_pressed && ggg.defselN && (pselkey && (pendkey || ggg.spc_pressed)) ) ) {
 YYYY:
 
     if ((pselkey || ggg.wild_mode) && ggg.defselN) {
@@ -1871,25 +1892,7 @@ YYYY:
     return 1;
 #endif
 
-    if (gtab_invalid_key_in) {
-      if (ggg.spc_pressed) {
-        bell_err();
-        ggg.invalid_spc = TRUE;
-//        dbg("ggg.invalid_spc\n");
-      } else {
-        seltab[0][0]=0;
-        ClrSelArea();
-      }
-    } else {
-      if (gtab_dup_select_bell)
-        bell();
-
-      if (ggg.ci>0)
-        ggg.inch[--ggg.ci]=0;
-    }
-
-    ggg.last_idx=0;
-    DispInArea();
+	invalid_key_in();
     return 1;
   }
 
@@ -1929,7 +1932,7 @@ refill:
     }
 
     ggg.defselN=ggg.exa_match;
-//    dbg("--- ggg.exa_match %d\n", ggg.exa_match);
+    dbg("--- ggg.exa_match %d\n", ggg.exa_match);
 
     if (ggg.defselN > page_len())
       ggg.defselN--;
@@ -2004,7 +2007,7 @@ nextj:
       }
     }
   } else {
-//    dbg("more %d %d  skip_end:%d\n", ggg.more_pg,  ggg.total_matchN, cur_inmd->flag&FLAG_PHRASE_AUTO_SKIP_ENDKEY);
+    dbg("more %d %d  skip_end:%d\n", ggg.more_pg,  ggg.total_matchN, cur_inmd->flag&FLAG_PHRASE_AUTO_SKIP_ENDKEY);
 next_pg:
     ggg.defselN=0;
     clr_seltab();
@@ -2017,7 +2020,7 @@ next_pg:
       ggg.last_full=1;
     int full_send = gtab_press_full_auto_send_on() && ggg.last_full;
 
-//    dbg("flag %d\n",!(pendkey && (cur_inmd->flag&FLAG_PHRASE_AUTO_SKIP_ENDKEY)));
+    dbg("flag %d\n",!(pendkey && (cur_inmd->flag&FLAG_PHRASE_AUTO_SKIP_ENDKEY)));
     if (gtab_phrase_on_() && !(pendkey && (cur_inmd->flag&FLAG_PHRASE_AUTO_SKIP_ENDKEY))
         && poo.same_pho_query_state != SAME_PHO_QUERY_gtab_input &&
         (ggg.spc_pressed||full_send)) {
@@ -2030,9 +2033,13 @@ next_pg:
         sel = trealloc(sel, char *, selN+1);
         sel[selN++] = load_tblidx(j);
         j++;
-      }
-      insert_gbuf_cursor(sel, selN, ggg.kval, FALSE);
-      gtab_scan_pre_select(FALSE);
+      }      
+      if (!selN) {
+		  invalid_key_in();
+		  return 1;
+	  }        
+      insert_gbuf_cursor(sel, selN, ggg.kval, FALSE);      
+      gtab_scan_pre_select(FALSE);      
       clear_after_put();
       return 1;
     } else {

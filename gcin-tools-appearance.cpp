@@ -28,6 +28,7 @@ static GtkWidget *opt_gcin_edit_display;
 extern GtkWidget *main_window;
 static GdkColor gcin_win_gcolor_fg, gcin_win_gcolor_bg, gcin_sel_key_gcolor;
 static GtkWidget *opt_tray;
+static GtkWidget *label_cursor;
 extern gboolean button_order;
 
 #if USE_INDICATOR
@@ -256,25 +257,12 @@ void disp_fg_bg_color()
 {
   dbg("disp_fg_bg_color\n");
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(check_button_gcin_win_color_use))) {
-#if !GTK_CHECK_VERSION(2,91,6)
     gtk_widget_modify_fg(label_win_color_test, GTK_STATE_NORMAL, &gcin_win_gcolor_fg);
     dbg("gcin_win_gcolor_bg %d\n", gcin_win_gcolor_bg);
-    gtk_widget_modify_bg(event_box_win_color_test, GTK_STATE_NORMAL, &gcin_win_gcolor_bg);
-#else
-    GdkRGBA rgbfg, rgbbg;
-    gdk_rgba_parse(&rgbfg, gdk_color_to_string(&gcin_win_gcolor_fg));
-    gdk_rgba_parse(&rgbbg, gdk_color_to_string(&gcin_win_gcolor_bg));
-    gtk_widget_override_color(label_win_color_test, GTK_STATE_FLAG_NORMAL, &rgbfg);
-    gtk_widget_override_background_color(event_box_win_color_test, GTK_STATE_FLAG_NORMAL, &rgbbg);
-#endif
+    gtk_widget_modify_bg(event_box_win_color_test, GTK_STATE_NORMAL, &gcin_win_gcolor_bg);    
   } else {
-#if !GTK_CHECK_VERSION(2,91,6)
     gtk_widget_modify_fg(label_win_color_test, GTK_STATE_NORMAL, NULL);
     gtk_widget_modify_bg(event_box_win_color_test, GTK_STATE_NORMAL, NULL);
-#else
-    gtk_widget_override_color(label_win_color_test, GTK_STATE_FLAG_NORMAL, NULL);
-    gtk_widget_override_background_color(event_box_win_color_test, GTK_STATE_FLAG_NORMAL, NULL);
-#endif
   }
 
   char *key_color = gtk_color_selection_palette_to_string(&gcin_sel_key_gcolor, 1);
@@ -400,19 +388,14 @@ static gboolean cb_gcin_win_color_use(GtkToggleButton *togglebutton, gpointer us
   return TRUE;
 }
 
-static GtkWidget *da_cursor;
+// static GtkWidget *da_cursor;
+
 static void cb_save_tsin_cursor_color(GtkWidget *widget, gpointer user_data)
 {
   GtkColorSelectionDialog *color_selector = (GtkColorSelectionDialog *)user_data;
   gtk_color_selection_get_current_color(GTK_COLOR_SELECTION(gtk_color_selection_dialog_get_color_selection(color_selector)), &tsin_cursor_gcolor);
 
-#if !GTK_CHECK_VERSION(2,91,6)
-  gtk_widget_modify_bg(da_cursor, GTK_STATE_NORMAL, &tsin_cursor_gcolor);
-#else
-  GdkRGBA rgbbg;
-  gdk_rgba_parse(&rgbbg, gdk_color_to_string(&tsin_cursor_gcolor));
-  gtk_widget_override_background_color(da_cursor, GTK_STATE_FLAG_NORMAL, &rgbbg);
-#endif
+  gtk_widget_modify_bg(label_cursor, GTK_STATE_NORMAL, &tsin_cursor_gcolor);
 }
 
 static gboolean cb_tsin_cursor_color( GtkWidget *widget, gpointer   data )
@@ -726,9 +709,7 @@ void create_appearance_conf_window()
   g_signal_connect (G_OBJECT (button_fg), "clicked",
                     G_CALLBACK (cb_gcin_win_color_fg), &colorsel[0]);
   gdk_color_parse(gcin_win_color_fg, &gcin_win_gcolor_fg);
-//  gtk_widget_modify_fg(label_win_color_test, GTK_STATE_NORMAL, &gcin_win_gcolor_fg);
   gdk_color_parse(gcin_win_color_bg, &gcin_win_gcolor_bg);
-//  gtk_widget_modify_bg(event_box_win_color_test, GTK_STATE_NORMAL, &gcin_win_gcolor_bg);
 
   GtkWidget *button_bg = gtk_button_new_with_label(_(_L("背景顏色")));
   gtk_widget_set_hexpand (button_bg, TRUE);
@@ -745,28 +726,23 @@ void create_appearance_conf_window()
   gdk_color_parse(gcin_sel_key_color, &gcin_sel_key_gcolor);
   gtk_container_add (GTK_CONTAINER (hbox_win_color_fbg), button_gcin_sel_key_color);
 
-  disp_fg_bg_color();
-
-
+  
   GtkWidget *frame_tsin_cursor_color = gtk_frame_new(_(_L("游標的顏色")));
   gtk_box_pack_start (GTK_BOX (vbox_L), frame_tsin_cursor_color, FALSE, FALSE, 0);
   gtk_container_set_border_width (GTK_CONTAINER (frame_tsin_cursor_color), 1);
   GtkWidget *button_tsin_cursor_color = gtk_button_new();
   g_signal_connect (G_OBJECT (button_tsin_cursor_color), "clicked",
                     G_CALLBACK (cb_tsin_cursor_color), G_OBJECT (gcin_kbm_window));
-  da_cursor =  gtk_drawing_area_new();
-  gtk_container_add (GTK_CONTAINER (button_tsin_cursor_color), da_cursor);
+  label_cursor =  gtk_label_new("標");
+  GdkColor color;
+  gdk_color_parse ("#ffffff", &color);
+  gtk_widget_modify_fg(label_cursor, GTK_STATE_NORMAL, &color);
+  gtk_container_add (GTK_CONTAINER (button_tsin_cursor_color), label_cursor);
   gdk_color_parse(tsin_cursor_color, &tsin_cursor_gcolor);
-#if !GTK_CHECK_VERSION(2,91,6)
-  gtk_widget_modify_bg(da_cursor, GTK_STATE_NORMAL, &tsin_cursor_gcolor);
-#else
-  GdkRGBA rgbbg;
-  gdk_rgba_parse(&rgbbg, gdk_color_to_string(&tsin_cursor_gcolor));
-  gtk_widget_override_background_color(da_cursor, GTK_STATE_FLAG_NORMAL, &rgbbg);
-#endif
-  gtk_widget_set_size_request(da_cursor, 16, 2);
+  gtk_widget_modify_bg(label_cursor, GTK_STATE_NORMAL, &tsin_cursor_gcolor);
   gtk_container_add (GTK_CONTAINER (frame_tsin_cursor_color), button_tsin_cursor_color);
 
+  disp_fg_bg_color();
 
   GtkWidget *hbox_cancel_ok = gtk_hbox_new (FALSE, 10);
 //  gtk_grid_set_column_homogeneous(GTK_GRID(hbox_cancel_ok), TRUE);

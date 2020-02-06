@@ -131,6 +131,7 @@ void load_phrase(char *fname, time_t *modtime, struct keystruc *tr, int trN)
       tr[i].str = strdup(str);
   }
 
+  fclose(fp);
 }
 
 

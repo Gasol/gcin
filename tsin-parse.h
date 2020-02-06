@@ -1,7 +1,8 @@
 typedef struct {
-  char len, flag;
-  u_char start;
+  phokey_t pho[MAX_PHRASE_LEN];
   unsigned char str[MAX_PHRASE_LEN*CH_SZ+1];  // use malloc
+  char len, flag;
+  u_char start;  
 } TSIN_PARSE;
 
 enum {

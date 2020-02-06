@@ -84,7 +84,7 @@ void mask_key_typ_pho(phokey_t *key)
   if (!poo.typ_pho[3]) *key &= ~(7);
 }
 
-#define TKBM 1
+#define TKBM 0
 #define MIN_M_PHO 5
 
 // skip table for hsu
@@ -130,9 +130,9 @@ static void find_match_phos(u_char mtyp_pho[4],  int *mcount, int newkey)
 #endif
       for (vv = hash_pho[poo.typ_pho[0]]; vv < hash_pho[poo.typ_pho[0]+1]; vv++) {
         phokey_t ttt=idx_pho[vv].key;
-
+#if TKBM
 		prph(ttt);  dbg(" 0x%x\n", ttt);
-
+#endif
 		int j;
 		for(j=0; skip[j]; j++)
 			if (skip[j]==ttt)
@@ -156,7 +156,7 @@ static void find_match_phos(u_char mtyp_pho[4],  int *mcount, int newkey)
         if (ttt > key)
           break;
 
-		dbg(" ");  prph(ttt); dbg(" 0x%x\n", ttt);
+//		dbg(" ");  prph(ttt); dbg(" 0x%x\n", ttt);
 
         int count = 0;
 
@@ -536,7 +536,8 @@ int ch_key_to_ch_pho_idx(phokey_t phkey, char *utf8)
 {
   int start_i, stop_i;
 
-  get_start_stop_idx(phkey, &start_i, &stop_i);
+  if (!get_start_stop_idx(phkey, &start_i, &stop_i))
+	return -1;
 
   int i;
   for(i=start_i; i<stop_i; i++) {

@@ -31,7 +31,7 @@ OBJS_JUYIN_LEARN=juyin-learn.o locale.o util.o pho-util.o pho-sym.o pho2pinyin.o
 OBJS_sim2trad=sim2trad.o util.o gcin2.so locale.o gcin-conf.o gcin-icon.o
 OBJS_phod2a=phod2a.o pho-util.o gcin-conf.o pho-sym.o table-update.o pho-dbg.o locale.o \
              gcin-settings.o util.o
-OBJS_tsa2d32=tsa2d32.o gcin-send.o util.o pho-sym.o gcin-conf.o locale.o pho-lookup.o pinyin.o pho2pinyin.o pho-dbg.o gcin-settings.o lang.o
+OBJS_tsa2d32=tsa2d32.o gcin-send.o util.o pho-sym.o gcin-conf.o locale.o pho-lookup.o pho2pinyin.o pho-dbg.o gcin-settings.o lang.o pinyin.o
 OBJS_gtab_db_gen=gtab-db-gen.o gcin-send.o util.o pho-sym.o gcin-conf.o locale.o pho-lookup.o pinyin.o pho2pinyin.o pho-dbg.o gcin-settings.o lang.o
 OBJS_phoa2d=phoa2d.o pho-sym.o gcin-send.o gcin-conf.o locale.o pho-lookup.o util.o pho-dbg.o
 OBJS_kbmcv=kbmcv.o pho-sym.o util.o locale.o
@@ -41,7 +41,7 @@ OBJS_gcin2tab=gcin2tab.o gtab-util.o util.o locale.o
 OBJS_gtab_merge=gtab-merge.o gtab-util.o util.o locale.o
 OBJS_gcin_tools=gcin-tools.o gcin-conf.o util.o gcin-send.o gcin-settings.o html-browser.o \
 	gcin-setup-list.o locale.o gcin-setup-pho.o about.o lang.o gcin-tools-appearance.o \
-	gcin-icon.o gcin-setup-gtab.o gtab-list.o gcin-exec-script.o pho-kbm-name.o gcin-module-cb.o
+	gcin-icon.o gcin-setup-gtab.o gtab-list.o gcin-exec-script.o pho-kbm-name.o gcin-module-cb.o pho-kbd-util.o
 
 OBJS_gcin_gb_toggle = gcin-gb-toggle.o gcin-conf.o util.o gcin-send.o
 OBJS_gcin_kbm_toggle = gcin-kbm-toggle.o gcin-conf.o util.o gcin-send.o

@@ -254,14 +254,16 @@ void get_key_str(void *key, int idx, char *out_str)
    strcpy(out_str, phostr);
 }
 
-void load_tsin_entry0_ex(TSIN_HANDLE *ptsin_hand, char *len, usecount_t *usecount, void *pho, u_char *ch);
 
 void load_tsin_at_ts_idx(int ts_row, char *len, usecount_t *usecount, void *pho, u_char *ch)
 {
     int ofs = ts_idx[ts_row];
+#if MEM_TSIN
+	load_tsin_entry0_ex(ts, ofs, len, usecount, pho, ch);
+#else    
     fseek(ts->fph, ofs, SEEK_SET);
-
     load_tsin_entry0_ex(ts, len, usecount, pho, ch);
+#endif    
 	if (b_en) {
 	  memcpy(ch, pho, *len);
 	  ch[*len]=0;
