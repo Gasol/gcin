@@ -439,6 +439,7 @@ void gcb_main()
                       G_CALLBACK (key_press_event), NULL);
 #endif
 #if 1
+	gtk_widget_add_events(buttonArr[i], GDK_SCROLL_MASK);
     g_signal_connect (G_OBJECT (buttonArr[i]), "scroll-event",
                       G_CALLBACK (gcb_button_scroll_event), NULL);
 #endif
@@ -529,4 +530,3 @@ void free_gcb() {
   g_free(buttonStr); buttonStr = NULL;
   }
 }
-

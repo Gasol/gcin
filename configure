@@ -59,7 +59,7 @@ use_qt3='N'
 use_qt4='Y'
 use_qt5='Y'
 use_gtk3='Y'
-use_uigtk3='N'
+use_uigtk3='Y'
 
 if [ "$GCIN_USE_XIM" ]; then
   use_xim=$GCIN_USE_XIM

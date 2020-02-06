@@ -98,6 +98,7 @@ void save_tsin_space_opt()
                      tsin_space_options[gtk_combo_box_get_active(GTK_COMBO_BOX(opt_tsin_space))].key);
 }
 
+gboolean not_41_pho_kbd(char *kbd);
 
 static gboolean cb_ok( GtkWidget *widget,
                                    GdkEvent  *event,
@@ -117,8 +118,7 @@ static gboolean cb_ok( GtkWidget *widget,
   char *kbd;
   char tt[128];
   sprintf(tt, "%s %s %d %d", kbd=kbm_sel[idx].kbm, selkeys[idx_selkeys].kstr, pho_candicate_col_N, selkeys[idx_selkeys].RL);
-  static char non41[]="et26 hsu pinyin pinyin-no-tone";
-  if (strstr(non41, kbd)) {
+  if (not_41_pho_kbd(kbd)) {
 	pho_no_tone=FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_button_pho_no_tone), FALSE);
   }

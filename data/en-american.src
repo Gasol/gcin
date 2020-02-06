@@ -5153,6 +5153,7 @@ Ezekiel	0
 Ezra	0
 F	0
 F's	0
+FAT	0
 FAT32	0
 FBI's	0
 FDA	0
@@ -7105,6 +7106,7 @@ IBM's	0
 ICBM's	0
 ICRT	0
 ID's	0
+IKEA	0
 IMF's	0
 ING	0
 ING's	0
@@ -7911,10 +7913,12 @@ Jutland's	0
 Juvenal	0
 K	0
 K's	0
+KDE	0
 KFC	0
 KFC's	0
 KKK's	0
 KMT	0
+KOHLER	0
 KTV	0
 Kaaba	0
 Kabul	0
@@ -8489,6 +8493,7 @@ LPN's	0
 LSD's	0
 LTE	0
 LTPS	0
+LUXGEN	0
 LVMH	0
 La	0
 La's	0
@@ -9307,6 +9312,7 @@ MB's	0
 MBA's	0
 MCI	0
 MCI's	0
+MCs	0
 MD's	0
 MG149	0
 MGM	0
@@ -9317,6 +9323,7 @@ MIT	0
 MIT's	0
 MLB	0
 MOD	0
+MOSFET	0
 MP's	0
 MP3	0
 MRI's	0
@@ -10846,15 +10853,18 @@ Münchhausen	0
 Münchhausen's	0
 N	0
 N's	0
+NAS	0
 NASA's	0
 NASCAR	0
 NASCAR's	0
 NASDAQ's	0
 NATO's	0
 NBA	0
+NDA	0
 NE's	0
 NFC	0
 NFL	0
+NMOS	0
 NORAD	0
 NORAD's	0
 NP	0
@@ -11710,6 +11720,7 @@ PC's	0
 PChome	0
 PET	0
 PHILIPS	0
+PHITS	0
 PM's	0
 PM2.5	0
 PMS's	0
@@ -11718,6 +11729,7 @@ PP	0
 PS	0
 PS's	0
 PST's	0
+PTSim	0
 PVC	0
 PVC's	0
 Pa	0
@@ -13679,6 +13691,7 @@ Schneider's	0
 Schoenberg	0
 Schoenberg's	0
 Schopenhauer	0
+Schottky diode	0
 Schrieffer	0
 Schrieffer's	0
 Schroeder	0
@@ -14259,6 +14272,7 @@ Snyder	0
 Snyder's	0
 Soave	0
 Soave's	0
+Social Security Number	0
 Socorro	0
 Socorro's	0
 Socrates	0
@@ -16509,6 +16523,7 @@ Xerox	0
 Xerox's	0
 Xeroxes	0
 Xerxes	0
+Xfce	0
 Xhosa	0
 Xhosa's	0
 Xi'an	0
@@ -28123,6 +28138,7 @@ cesspools	0
 cetacean	0
 cetacean's	0
 cetaceans	0
+cgu	0
 chafe	0
 chafed	0
 chafes	0
@@ -36855,6 +36871,7 @@ dickies	0
 dicks	0
 dicky	0
 dicky's	0
+dicos	0
 dicta	0
 dictate	0
 dictate's	0
@@ -39569,6 +39586,7 @@ duties	0
 dutiful	0
 dutifully	0
 duty	0
+duty cycle	0
 duty's	0
 duvet	0
 dvorak	0
@@ -39677,6 +39695,7 @@ eagles	0
 eaglet	0
 eaglet's	0
 eaglets	0
+eant4	0
 ear	0
 ear's	0
 earache	0
@@ -40619,6 +40638,7 @@ emits	0
 emitted	0
 emitter	0
 emitting	0
+emoji	0
 emollient	0
 emollient's	0
 emollients	0
@@ -45053,6 +45073,7 @@ fluxes	0
 fluxing	0
 fly	0
 fly's	0
+flyback	0
 flyby	0
 flyby's	0
 flybys	0
@@ -59844,6 +59865,7 @@ lyricist	0
 lyricist's	0
 lyricists	0
 lyrics	0
+lysine	0
 m	0
 ma	0
 ma'am	0
@@ -70777,6 +70799,7 @@ pizzicato	0
 pizzicato's	0
 pizzicatos	0
 pj's	0
+pkg	0
 placard	0
 placard's	0
 placarded	0
@@ -74275,6 +74298,7 @@ pups	0
 purblind	0
 purchasable	0
 purchase	0
+purchase order	0
 purchase's	0
 purchased	0
 purchaser	0
@@ -74523,6 +74547,8 @@ pyx	0
 pyx's	0
 pyxes	0
 q	0
+qstat	0
+qsub	0
 qua	0
 quack	0
 quack's	0
@@ -75591,6 +75617,7 @@ reached	0
 reaches	0
 reaching	0
 react	0
+reactance	0
 reacted	0
 reacting	0
 reaction	0
@@ -79335,6 +79362,7 @@ royalties's	0
 royalty	0
 royalty's	0
 rs	0
+rsync	0
 rub	0
 rub's	0
 rubbed	0
@@ -87562,6 +87590,7 @@ streetcars	0
 streetlight	0
 streetlight's	0
 streetlights	0
+streetmap	0
 streets	0
 streetwalker	0
 streetwalker's	0
@@ -88309,6 +88338,7 @@ sudden	0
 suddenly	0
 suddenness	0
 suddenness's	0
+sudo	0
 suds	0
 suds's	0
 sudsier	0
@@ -90174,6 +90204,7 @@ teams	0
 teamster	0
 teamster's	0
 teamsters	0
+teamviewer	0
 teamwork	0
 teamwork's	0
 teapot	0
@@ -92898,6 +92929,7 @@ triads	0
 triage	0
 triage's	0
 trial	0
+trial run	0
 trial's	0
 trialed	0
 trialing	0
@@ -96836,6 +96868,7 @@ volleys	0
 volt	0
 volt's	0
 voltage	0
+voltage multiplier	0
 voltage regulator	0
 voltage's	0
 voltages	0
@@ -99723,16 +99756,13 @@ zwieback's	0
 zygote	0
 zygote's	0
 zygotes	0
-voltage multiplier	0
-purchase order	0
-IKEA	0
-KOHLER	0
-NDA	0
-social security number	0
-Social Security Number	0
-MOSFET	0
-NMOS	0
-duty cycle	0
-emoji	0
-Schottky diode	0
-lysine	0
+for sale	0
+CEO	0
+UNIQLO	0
+file name	0
+kart	0
+kill tIme	0
+pornhub	0
+Taiwan lily	0
+gtk	0
+GTK	0
